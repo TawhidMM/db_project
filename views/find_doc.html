@@ -1,0 +1,35 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<input type="text" id="specialist" placeholder="Specialist">
+<input type="text" id="location" placeholder="Location">
+<button id="searchButton">Search</button>
+<script>
+    const specialistInput = document.getElementById("specialist")
+    const locationInput = document.getElementById("location")
+    const button = document.getElementById("searchButton")
+
+    button.addEventListener("click", async ()=>{
+        console.log("button clicked")
+
+        const specialist = specialistInput.value
+        const location = locationInput.value
+
+        const response = await fetch(`/find-doctor/${specialist}&${location}`)
+        const foundDoctors = await response.json()
+
+        console.log(foundDoctors)
+    })
+
+    function createTable(doctors) {
+        const table = document.getElementById("doctorList")
+
+    }
+
+</script>
+<table id="doctorList"></table>
+</body>
+</html>
