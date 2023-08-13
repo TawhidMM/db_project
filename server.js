@@ -27,8 +27,8 @@ server.get('/find-doctor/:speciality&:location', async (req,
                         ON D.DOCTOR_ID = DA.DOCTOR_ID JOIN
                         MEDICAL_CENTER M ON DA.CENTER_ID =M.MED_CENTER_ID
                         JOIN ADDRESS A ON A.ADDRESS_ID = M.ADDRESS_ID
-                        WHERE D.SPECIALIZATION = '${specialist}'
-                        AND A.SUB_DISTRICT = '${location}'`
+                        WHERE LOWER( D.SPECIALIZATION )= LOWER('${specialist}')
+                        AND LOWER( A.SUB_DISTRICT) = LOWER('${location}')`
 
     const data = await connection.executeQuery(query)
 

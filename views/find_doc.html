@@ -1,12 +1,47 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Styled Table</title>
+    <style>
+        /* Add your CSS styles here */
+        #data-table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        #data-table th, #data-table td {
+            border: 1px solid #dddddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        #data-table th {
+            background-color: #f2f2f2;
+        }
+    </style>
 </head>
 <body>
 <input type="text" id="specialist" placeholder="Specialist">
 <input type="text" id="location" placeholder="Location">
 <button id="searchButton">Search</button>
+
+<div id="table-container">
+    <table id="data-table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Hospital</th>
+                <th>Address</th>
+                <!-- Add more column headers as needed -->
+            </tr>
+        </thead>
+        <tbody id="table-body">
+            <!-- JSON data will be added here -->
+        </tbody>
+    </table>
+</div>
+
 <script>
     const specialistInput = document.getElementById("specialist")
     const locationInput = document.getElementById("location")
@@ -22,13 +57,37 @@
         const foundDoctors = await response.json()
 
         console.log(foundDoctors)
+        
+        const tableBody = document.getElementById('table-body');
+
+        // const refreshButton = document.getElementById('searchButton');
+
+        // refreshButton.addEventListener('click', refreshTable);
+        
+        foundDoctors.forEach(item => {
+            const row = tableBody.insertRow();
+            Object.values(item).forEach(value => {
+                const cell = row.insertCell();
+                cell.textContent = value;
+            });
+        });
     })
 
-    function createTable(doctors) {
-        const table = document.getElementById("doctorList")
+    // function refreshTable() {
+    //         // Clear existing table rows
+    //         tableBody.innerHTML = '';
 
-    }
+    //         // Populate table with new data
+    //         jsonData.forEach(item => {
+    //             const row = tableBody.insertRow();
+    //             Object.values(item).forEach(value => {
+    //                 const cell = row.insertCell();
+    //                 cell.textContent = value;
+    //             });
+    //         });
+    //     }
 
+    // refreshTable();
 </script>
 <table id="doctorList"></table>
 </body>
