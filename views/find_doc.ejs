@@ -1,43 +1,91 @@
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>find doctor</title>
+    <title>Medical Database Portal</title>
     <style>
-        #data-table {
-            border-collapse: collapse;
-            width: 100%;
-            margin-top: 20px;
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to bottom, #eff5fb, #d8f7d7);
+            color: #333;
         }
 
-        #data-table th, #data-table td {
-            border: 1px solid #dddddd;
-            padding: 12px;
+        .header {
+            background-color: #62b857;
+            color: #fff;
+            text-align: center;
+            padding: 30px 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .card {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .card h2 {
+            margin-top: 0;
+            color: #007bff;
+            font-size: 24px;
+        }
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            border: 1px solid #ddd;
+            margin-top: 10px;
+        }
+
+        th, td {
+            padding: 12px 15px;
             text-align: left;
         }
 
-        #data-table th {
+        th {
             background-color: #f2f2f2;
         }
     </style>
 </head>
 <body>
-
+    <div class="header">
+        <h1>Medical portal for Patients</h1>
+        <h2>Find Your Doctor</h2>
+    </div>
+<br>
+<center>
+    
 <select name="specialist" id="specialist">
-    <option value="default" disabled selected hidden> --select specialist-- </option>
+    <option value="default" disabled selected hidden> select speciality </option>
     <% allSpeciality.forEach(speciality => { %>
     <option value="<%- speciality.SPECIALIST %>"><%- speciality.SPECIALIST %></option>
     <% }); %>
 </select>
+
 <select name="location" id="location">
-    <option value="default" disabled selected hidden> --select location-- </option>
+    <option value="default" disabled selected hidden> select your location </option>
     <% allSubDistrict.forEach(subDistrict => { %>
     <option value="<%- subDistrict.SUB_DISTRICT %>"><%- subDistrict.SUB_DISTRICT %></option>
     <% }); %>
 </select>
 
 <button id="searchButton">Search</button>
+</center>
 
 <div id="table-container">
+    <div class="card">
+    <h2>Available doctors</h2>
     <table id="data-table">
         <thead>
             <tr>
@@ -49,6 +97,7 @@
         <tbody id="table-body">
         </tbody>
     </table>
+    </div>
 </div>
 
 <script>
@@ -109,6 +158,7 @@
 
     // refreshTable();
 </script>
+
 <table id="doctorList"></table>
 </body>
 </html>
