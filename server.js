@@ -9,9 +9,19 @@ server.set('view engine', 'ejs')
 
 server.listen(5005)
 
-server.get('/find-doctor', (req,
+server.get('/find-doctor', async (req,
                             res) =>{
-    res.sendFile('./views/find_doc.html',{root:__dirname})
+
+    const allSpeciality =
+        await connection.executeQuery("SELECT DISTINCT SPECIALIZATION SPECIALIST FROM DOCTOR")
+
+    const allSubDistrict = await
+        connection.executeQuery("SELECT DISTINCT SUB_DISTRICT FROM ADDRESS")
+
+    res.render("find_doc.ejs", {
+        allSpeciality : allSpeciality,
+        allSubDistrict : allSubDistrict
+    })
 })
 
 server.get('/find-doctor/:speciality&:location', async (req,

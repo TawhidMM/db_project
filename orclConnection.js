@@ -23,7 +23,7 @@ async function executeQuery(query){
 
         const result =  (await connection.execute(query)).rows
 
-        console.log(result)
+        //console.log(result)
 
         await connection.close()
 
