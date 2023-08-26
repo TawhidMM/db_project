@@ -29,6 +29,7 @@ server.use("/login",loginRouter);
 
 server.use("/patient",patientRouter);
 
+
 server.get('/', (req,
                  res)=>{
     res.send("hii there")
@@ -47,40 +48,6 @@ server.get('/find-doctor', async (req,
         allSpeciality : allSpeciality,
         allSubDistrict : allSubDistrict
     })
-})
-
-
-server.post('/patient/login', async (req,
-                                  res) =>{
-    try {
-        const {nid, password} = req.body
-
-        const query = `SELECT PATIENT_ID, FIRST_NAME, LAST_NAME, PASSWORD
-                              FROM PATIENT
-                              WHERE PATIENT_ID = 'P${nid}'`
-
-        const data = await connection.executeQuery(query)
-        // data = array of object containing selected
-        // attributes
-        const {
-            PATIENT_ID : id,
-            FIRST_NAME : firstName,
-            LAST_NAME : lastName,
-            PASSWORD : actualPass
-        } = data[0]
-
-        const fullName = firstName + ' ' + lastName
-
-        if(actualPass === password)
-            res.status(200).json({ id, fullName })
-        else
-            res.sendStatus(404)
-
-    } catch (error){
-        console.log('error in api /patient/login')
-        console.log(error)
-    }
-
 })
 
 
