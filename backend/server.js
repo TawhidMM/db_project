@@ -1,12 +1,16 @@
 const express = require('express')
 const connection = require('./orclConnection')
 
+const cookie_parser = require('cookie-parser');
 const server = express()
 
 
-server.use(express.json())
+server.use(express.json());
 server.set('view engine', 'ejs')
+server.use(cookie_parser());
 
+const loginRouter = require('./Router/loginRouter')
+const patientRouter = require('./Router/patientRouter');
 
 /*// create database connection pool
 (async ()=>{
@@ -20,6 +24,10 @@ server.listen(5005, ()=>{
     console.log('server listening at 5005')
 })
 
+
+server.use("/login",loginRouter);
+
+server.use("/patient",patientRouter);
 
 server.get('/', (req,
                  res)=>{
@@ -101,7 +109,7 @@ server.get('/find-doctor/:specialist&:location', async (req,
         console.log('error in /find-doctor/:specialist&:location')
         console.log(error)
     }
-})
+});
 
 
 

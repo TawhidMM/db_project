@@ -14,13 +14,14 @@ function Login() {
         event.preventDefault()
 
         try {
-            const response = await axios.post("patient/login", { nid, password })
+            const response = await axios.post("/login", { nid, password })
 
             if(response.status === 200) {
-                const {id, fullName} = response.data
+                const {id: id1,fullName: fullName1} = response.data
+
 
                 // redirect to this page
-                navigate(`../id/${id}/name/${fullName}`)
+                navigate(`../id/${id1}/name/${fullName1}`)
             }
             else if(response.status === 404)
                 console.log('invalid id/password')
