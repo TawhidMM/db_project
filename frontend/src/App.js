@@ -7,6 +7,7 @@ import {
 // import pages
 import Login from "./components/Login"
 import PatientDashBoard from "./components/PatientDashBoard"
+import PatientSignUp from "./pages/patientSignUp";
 
 // import bootstrap css styles
 import 'bootstrap/dist/css/bootstrap.css'
@@ -18,6 +19,7 @@ const router = createBrowserRouter(
         <Route>
             <Route path='/login' element={<Login/>} />
             <Route path={'/id/:patientId/name/:patientName'} element={<PatientDashBoard/>}/>
+            <Route path={'/patient/signup'} element={<PatientSignUp/>}/>
         </Route>
     )
 )

@@ -31,6 +31,10 @@ function Login() {
         }
     }
 
+    const handleLoginClick = ()=>{
+        navigate(`../patient/signup`)
+    }
+
 
     return (
     <>
@@ -50,12 +54,15 @@ function Login() {
             />
             <label htmlFor="floatingPassword">Password</label>
         </div>
-        <div className="d-grid gap-2 col-6 mx-auto">
+        <div className="d-grid gap-2 col-3 mx-auto my-4">
             <button
                 className="btn btn-primary" type="button"
                 onClick={handleLogin}
             >
                 Log in
+            </button>
+            <button type="button" className="btn btn-link" onClick={handleLoginClick}>
+                Sign in
             </button>
         </div>
     </>
