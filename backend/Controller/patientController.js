@@ -6,7 +6,7 @@ async function getDetails(req, res) {
 
     const patientId = req.access_id;
 
-    const query = `SELECT PATIENT_ID, FIRST_NAME ||' '||LAST_NAME FULLNAME, EMAIL, GENDER, TO_CHAR(DOB, 'DD MONTH YYYY'), BLOOD_GROUP, ADDRESS_ID, PHOTO_URL
+    const query = `SELECT PATIENT_ID, FIRST_NAME ||' '||LAST_NAME FULLNAME, EMAIL, GENDER, TO_CHAR(DOB, 'DD MONTH YYYY') DOB, BLOOD_GROUP, ADDRESS_ID, PHOTO_URL
                     FROM PATIENT
                     WHERE PATIENT_ID = '${patientId}'`;
 

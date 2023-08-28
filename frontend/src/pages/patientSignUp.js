@@ -94,9 +94,14 @@ function PatientSignUp() {
                     />
                 </div>
                 <div className="col">
-                    {/*
-                    date picker
-                */}
+
+                    <input
+                        className="input-field"
+                        type="date"
+                        //value={date}
+                        //onChange={(e) => setDate(e.target.value)}
+                    />
+
                 </div>
             </div>
             <div className="row my-3">
