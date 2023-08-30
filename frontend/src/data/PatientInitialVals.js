@@ -5,6 +5,7 @@ const patientInitialValues = {
     email: "",
     bloodGroup: "",
     gender: "",
+    dob: "",
     imageUrl: "",
     street: "",
     city: "",
