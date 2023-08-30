@@ -49,22 +49,6 @@ const PatientDashboard = () => {
         }
     };
 
-
-    const tableStyle = {
-        width: "100%",
-        borderCollapse: "collapse",
-    };
-
-    const cellStyle = {
-        border: "1px solid #ccc",
-        padding: "8px",
-        textAlign: "left",
-    };
-
-    const headerStyle = {
-        backgroundColor: "#f5f5f5",
-    };
-
     return (
         <>
             <div>
