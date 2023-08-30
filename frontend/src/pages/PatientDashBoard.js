@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-import ImageNameCard from "./ImageNameCard";
-import PatientHeader from "./PatientHeader";
-import DetailsCard from "./DetailsCard";
-import TableHeaders from "./TableHeaders";
+import ImageNameCard from "../components/ImageNameCard";
+import PatientHeader from "../components/PatientHeader";
+import DetailsCard from "../components/DetailsCard";
+import TableHeaders from "../components/TableHeaders";
 
 import removeKey from "../util/RemoveKey";
 

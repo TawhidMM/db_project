@@ -7,7 +7,7 @@ import {
 
 // import pages
 import Login from "./components/Login";
-import PatientDashBoard from "./components/PatientDashBoard";
+import PatientDashBoard from "./pages/PatientDashBoard";
 import PatientSignUp from "./pages/patientSignUp";
 import Home from "./pages/Home";
 import PatientHeader from "./components/PatientHeader";
