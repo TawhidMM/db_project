@@ -1,41 +1,63 @@
 import { useState } from "react";
+
 import InputField from "../components/InputField";
 import Select from "../components/Select";
 import PasswordInput from "../components/PasswordInput";
 
 import patientInitialValues from "../data/PatientInitialVals";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function PatientSignUp() {
-    const form = useState(patientInitialValues);
-    const navigate = useNavigate();
+    const form = useState(patientInitialValues)
+    const [formInput, setFormInput] = form
+    const [passwordMatch, setPasswordMatch] = useState(true)
+    const [signUpFailed, setSignUpFailed] = useState(false)
+    const [signUpAlertMsg, setSignUpAlertMsg] = useState('')
+    const navigate = useNavigate()
 
     const genders = ["Gender", "Female", "Male"];
-    const bloodGroups = [
-        "Blood Group",
-        "A+",
-        "A-",
-        "B+",
-        "B-",
-        "AB+",
-        "AB-",
-        "O+",
-        "O-",
-    ];
+    const bloodGroups = ["Blood Group", "A+", "A-", "B+", "B-", "AB+",
+        "AB-", "O+", "O-",]
 
-    const handleSignInClick = () => {
-        const [formInput, setFormInput] = form;
+    const handleSignInClick = async () => {
 
-        console.log(formInput);
-    };
+        const {password, confirmPassword} = formInput
+        setSignUpFailed(false)
+
+        console.log(formInput)
+
+        if(password !== confirmPassword)
+            setPasswordMatch(false)
+
+        try{
+            const response = await axios.post("/patient/s", formInput)
+            console.log(response.data)
+
+        } catch (error){
+
+            if(error.response.status === 436) {
+                const {message} = error.response.data
+                console.log(message)
+                console.log(error.response.data)
+                setSignUpFailed(true)
+                setSignUpAlertMsg(message)
+            }
+            else {
+                console.log('signup failed')
+                console.log(error)
+            }
+
+        }
+    }
 
     const handleLoginClick = () => {
         navigate(`../login`);
-    };
+    }
 
     return (
         <>
-            <div class="header">
+            <div className="header">
                 <center>
                     <br />
                     <h1>Medical portal for Patients</h1>
@@ -94,14 +116,19 @@ function PatientSignUp() {
                     />
                 </div>
                 <div className="col">
-
-                    <input
-                        className="input-field"
-                        type="date"
-                        //value={date}
-                        //onChange={(e) => setDate(e.target.value)}
+                    <input type="text" className="form-control"
+                           placeholder="Date of Birth" id="DOB"
+                           onFocus={event=>
+                               event.target.type = "date"}
+                           onBlur={event=>
+                               event.target.type = "text"}
+                           onChange={event=>{
+                               setFormInput({
+                                   ...formInput,
+                                   ['dob']: event.target.value
+                               })
+                           }}
                     />
-
                 </div>
             </div>
             <div className="row my-3">
@@ -158,6 +185,7 @@ function PatientSignUp() {
                         name={"password"}
                         placeholder={"Password"}
                         form={form}
+                        changeAlert={setPasswordMatch}
                     />
                 </div>
                 <div className="col">
@@ -165,10 +193,21 @@ function PatientSignUp() {
                         name={"confirmPassword"}
                         placeholder={"Confirm Password"}
                         form={form}
+                        changeAlert={setPasswordMatch}
                     />
                 </div>
             </div>
-            <div className="d-grid gap-2 col-2 mx-auto">
+            {!passwordMatch && (
+                <div className="alert alert-danger mx-auto col-3" role="alert">
+                    please enter the same password
+                </div>
+            )}
+                {signUpFailed &&
+                    <div className="alert alert-danger mx-auto col-3" role="alert">
+                        {signUpAlertMsg}
+                    </div>
+                }
+            <div className="d-grid gap-2 col-2 mx-auto mt-3">
                 <button
                     type="button"
                     className="btn btn-primary"
@@ -185,7 +224,7 @@ function PatientSignUp() {
                 </button>
             </div>
         </>
-    );
+    )
 }
 
 export default PatientSignUp;

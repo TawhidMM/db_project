@@ -3,7 +3,7 @@ import {useEffect, useState} from "react";
 
 
 
-function PasswordInput({name ,placeholder, form}) {
+function PasswordInput({name ,placeholder, form, changeAlert}) {
     const [value, setValue] = useState("")
     const [formData, setFormData] = form
 
@@ -32,8 +32,11 @@ function PasswordInput({name ,placeholder, form}) {
             <input
                 type="password" className="form-control"
                 id={name} placeholder={placeholder}
-                onChange={(event)=>
-                    setValue(event.target.value)}
+                onChange={(event)=> {
+                        setValue(event.target.value)
+                        changeAlert(true)
+                    }
+                }
             />
             <label htmlFor="floatingPassword">{placeholder}</label>
         </div>

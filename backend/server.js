@@ -25,9 +25,8 @@ server.listen(5005, ()=>{
 })
 
 
-server.use("/login",loginRouter);
-
-server.use("/patient",patientRouter);
+server.use("/login", loginRouter)
+server.use("/patient", patientRouter)
 
 
 server.get('/', (req,

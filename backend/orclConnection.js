@@ -1,5 +1,10 @@
 const oracledb = require('oracledb')
-oracledb.outFormat = oracledb.OUT_FORMAT_OBJECT ;
+const errorMsg = require('./Utils/OrclErrorMap')
+
+
+
+oracledb.outFormat = oracledb.OUT_FORMAT_OBJECT
+oracledb.autoCommit = true
 
 async function createConnectionPool() {
     try {
@@ -15,15 +20,9 @@ async function createConnectionPool() {
 async function executeQuery(query){
     console.log(query)
     try {
-        const connection = await oracledb.getConnection(
-            /*user: 'medical',
-            password: '12345',
-            connectString: 'localhost/orclpdb'*/
-        )
+        const connection = await oracledb.getConnection()
 
         const result =  (await connection.execute(query)).rows
-
-        //console.log(result)
 
         await connection.close()
 
@@ -31,9 +30,9 @@ async function executeQuery(query){
     }
     catch (error) {
         console.log(error)
+        throw error
     }
 }
 
 module.exports.executeQuery = executeQuery
 module.exports.createPool = createConnectionPool
-//sdgsg

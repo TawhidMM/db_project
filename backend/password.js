@@ -1,17 +1,15 @@
 const bcrypt = require('bcrypt')
+
 async function hashPassword(plaintextPassword) {
     const salt = 5
-    const hash = await bcrypt.hash(plaintextPassword, salt)
-
-    return hash
-    // Store hash in the database
+    return await bcrypt.hash(plaintextPassword, salt)
 }
 
 // compare password
 async function comparePassword(plaintextPassword, hash) {
-    const result = await bcrypt.compare(plaintextPassword, hash);
-    return result;
+    return await bcrypt.compare(plaintextPassword, hash);
 }
+
 
 (async ()=>{
     const pass = '12345'
@@ -20,3 +18,5 @@ async function comparePassword(plaintextPassword, hash) {
     const r = await comparePassword(pass, hash)
     console.log(r)
 })()
+
+module.exports = hashPassword

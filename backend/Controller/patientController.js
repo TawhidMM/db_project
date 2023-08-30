@@ -6,9 +6,11 @@ async function getDetails(req, res) {
 
     const patientId = req.access_id;
 
-    const query = `SELECT PATIENT_ID, FIRST_NAME ||' '||LAST_NAME FULLNAME, EMAIL, GENDER, TO_CHAR(DOB, 'DD MONTH YYYY') DOB, BLOOD_GROUP, ADDRESS_ID, PHOTO_URL
-                    FROM PATIENT
-                    WHERE PATIENT_ID = '${patientId}'`;
+    const query = `SELECT FIRST_NAME ||' '||LAST_NAME FULL_NAME, 
+                          EMAIL, GENDER, TO_CHAR(DOB, 'DD MONTH YYYY') DOB, 
+                          BLOOD_GROUP, ADDRESS_ID, PHOTO_URL
+                          FROM PATIENT
+                          WHERE PATIENT_ID = '${patientId}'`;
 
     try {
         const data = await db.executeQuery(query);
@@ -36,13 +38,14 @@ async function getMedicine(req, res) {
     console.log(sinceMonth);
 
     //return res.status(200).send(sinceMonth);
-    const query = `SELECT  MEDICINE_NAME, DOSAGE_AMOUNT, DOSAGE_FREQUENCY, DURATION, TIMING ,
+    const query = `SELECT  MEDICINE_NAME NAME, DOSAGE_AMOUNT DOSAGE, DOSAGE_FREQUENCY FREQUENCY, DURATION, TIMING ,
                                                 (SELECT FIRST_NAME||' '||LAST_NAME
                                                 FROM PAST_APPOINTMENT pa LEFT JOIN DOCTOR d ON (pa.DOCTOR_ID=d.DOCTOR_ID)
-                                                WHERE pa.APPOINTMENT_ID= p.APPOINTMENT_ID) DRNAME,
+                                                WHERE pa.APPOINTMENT_ID= p.APPOINTMENT_ID) PRESCRIBED_BY,
                                                 TO_CHAR( (SELECT APPOINTMENT_DATE
                                                 FROM PAST_APPOINTMENT pa LEFT JOIN DOCTOR d ON (pa.DOCTOR_ID=d.DOCTOR_ID)
-                                                WHERE pa.APPOINTMENT_ID= p.APPOINTMENT_ID), 'DD MON YYYY') dateon
+                                                WHERE pa.APPOINTMENT_ID= p.APPOINTMENT_ID), 'DD MON YYYY') PRESCRIBED_ON,
+                                                m.DESCRIPTION MED_URL
 
                 FROM PRESCRIBED_MEDICINES p LEFT JOIN MEDICINE m ON (p.MEDICINE_ID=m.MEDICINE_ID)
                 WHERE p.APPOINTMENT_ID IN ( SELECT APPOINTMENT_ID
@@ -50,7 +53,7 @@ async function getMedicine(req, res) {
                                             WHERE PATIENT_ID = '${patientId}'
                                             AND MONTHS_BETWEEN(SYSDATE, APPOINTMENT_DATE)<= ${sinceMonth})
 
-                ORDER BY TO_DATE(dateon,'DD MON YYYY') DESC, MEDICINE_NAME ASC`;
+                ORDER BY TO_DATE(PRESCRIBED_ON,'DD MON YYYY') DESC, MEDICINE_NAME ASC`
 
     try {
         const data = await db.executeQuery(query);
@@ -69,4 +72,4 @@ async function logOut(req, res) {
     res.json({ success: true });
 }
 
-module.exports = { getDetails, getMedicine, logOut };
+module.exports = { getDetails, getMedicine, logOut }
