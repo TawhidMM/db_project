@@ -10,6 +10,8 @@ import Login from "./components/Login";
 import PatientDashBoard from "./pages/PatientDashBoard";
 import PatientSignUp from "./pages/patientSignUp";
 import Home from "./pages/Home";
+import PatientHistory from "./pages/PatientHistory";
+import AppointmentPrescription from "./pages/AppointmentPrescription";
 import PatientHeader from "./components/PatientHeader";
 
 // import bootstrap css styles
@@ -21,6 +23,11 @@ const router = createBrowserRouter(
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path={"/patient/dashboard"} element={<PatientDashBoard />} />
+            <Route path={"/patient/history"} element={<PatientHistory />} />
+            <Route
+                path={"/patient/history/Appointment"}
+                element={<AppointmentPrescription />}
+            />
             <Route path={"/patient/signup"} element={<PatientSignUp />} />
             <></>
         </Route>
