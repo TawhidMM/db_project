@@ -11,15 +11,21 @@ async function saveUpdates(req, res) {
 
     const addressId = `GET_ADD_ID('${STREET_ADDRESS}', '${CITY}', 
                             '${POSTAL_CODE}', '${SUB_DISTRICT}', '${DISTRICT}')`
-    const passwordHash = await hash(PASSWORD)
+
+    let setPassword = ''
+
+    if(PASSWORD.length !== 0){
+        const passwordHash = await hash(PASSWORD)
+        setPassword = `,PASSWORD = '${passwordHash}'`
+    }
 
     const query = `UPDATE PATIENT
                           SET
                           FIRST_NAME = '${FIRST_NAME}',
                           LAST_NAME = '${LAST_NAME}',
                           EMAIL = '${EMAIL}',
-                          ADDRESS_ID = ${addressId},
-                          PASSWORD = '${passwordHash}'
+                          ADDRESS_ID = ${addressId}
+                          ${setPassword}
                           WHERE PATIENT_ID = '${patientId}' `
 
     try {
