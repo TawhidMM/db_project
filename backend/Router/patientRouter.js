@@ -1,3 +1,4 @@
+
 const express = require("express")
 
 const ptRouter = express.Router()
@@ -26,7 +27,10 @@ ptRouter.route('/edit-profile/save-changes').post(util.verifyToken, confirmUpdat
 
 ptRouter.route("/logout").post(util.verifyToken, ptController.logOut)
 
+ptRouter.route("/medicine").get(util.verifyToken, ptController.getMedicine);
+ptRouter.route("/history/appointmentList").get(util.verifyToken, ptController.getAppointmentList)
+ptRouter.route("/history/appointment").get(util.verifyToken, ptController.getAppointmentPrecription)
+ptRouter.route("/logout").post(util.verifyToken, ptController.logOut)
 
+module.exports = ptRouter;
 
-
-module.exports = ptRouter
