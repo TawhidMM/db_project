@@ -6,12 +6,15 @@ import PatientHeader from "../components/PatientHeader";
 import TableHeaders from "../components/TableHeaders";
 import removeKey from "../util/RemoveKey";
 import "./AppointmentPrescription.css";
+import MedList from "../components/MedList";
 
 const AppointmentPrescription = () => {
     const navigate = useNavigate();
     const query = new URLSearchParams(useLocation().search);
-    const appointment_id = query.get("appointment_id");
-    const [prescription, setPrescription] = useState([]);
+    const appointment_id = query.get("appointment_id")
+    const [details, setDetails] = useState(null)
+    const [medicines, setMedicines] = useState(null)
+    const [showMedicines, setShowMedicines] = useState(false);
 
     useEffect(() => {
         const getPrescription = async () => {
@@ -20,29 +23,47 @@ const AppointmentPrescription = () => {
                 const response = await axios.get(
                     `/patient/history/appointment?appointment_id=${appointment_id}`
                 );
-                setPrescription(response.data);
+                setDetails(response.data.details[0]);
+                setMedicines(response.data.medicines);
 
-                console.log(prescription);
-                const details = prescription.details;
-                console.log(details);
+                console.log(details)
+                console.log(medicines)
             } catch (error) {
                 console.error("Error fetching patient information:", error);
             }
         };
         getPrescription();
+
     }, []);
+    const getPrescription2 = async () => {
+        try {
+            console.log(appointment_id);
+            const response = await axios.get(
+                `/patient/history/appointment?appointment_id=${appointment_id}`
+            );
+            setDetails(response.data.details[0]);
+            setMedicines(response.data.medicines);
+
+            console.log(details)
+            console.log(medicines)
+            setShowMedicines(true);
+        } catch (error) {
+            console.error("Error fetching patient information:", error);
+        }
+    };
 
     return (
         <>
             <PatientHeader />
-            <button className="btn btn-primary" type="button">
+            <button className="btn btn-primary" type="button" onClick={getPrescription2}>
                 show prescription
             </button>
-            {/* <page size="A4">
-                <main>
+            {showMedicines && (
+            // <page className="page" size="A4">
                     <table>
+                        <tbody>
                         <tr>
-                            <td class="header" colspan="2">
+                            <td class="header" colSpan="2">
                                 <div class="chamber-details">
                                     <div class="logo">
                                         <img
@@ -76,8 +97,10 @@ const AppointmentPrescription = () => {
                                 </div>
                             </td>
                         </tr>
+                        </tbody>
+                        <tbody>
                         <tr>
-                            <td class="patient" colspan="2">
+                            <td class="patient" colSpan="2">
                                 <div>
                                     <p class="sl">
                                         PRESCRIPTION NO.{" "}
@@ -91,6 +114,7 @@ const AppointmentPrescription = () => {
                                 </div>
                             </td>
                         </tr>
+                        </tbody>
                         <tr>
                             <td class="d-info">
                                 <div class="symp">
@@ -121,72 +145,20 @@ const AppointmentPrescription = () => {
                             </td>
                             <td class="medicine">
                                 <div class="med-list">
-                                    <div class="item">
-                                        <div class="name_type">
-                                            <h2>Drug Name</h2>
-                                            <p>Drug Type</p>
-                                        </div>
-                                        <div class="weight_generic">
-                                            <span>500mg</span>
-                                            <p>Generic Name</p>
-                                        </div>
-                                        <div class="how_when">
-                                            <p>
-                                                Take <span>1+1+1+1</span> for{" "}
-                                                <span>CONTINUE</span>
-                                            </p>
-                                            <span>AFTER MEAL</span>
-                                            <p>(25 doses)</p>
-                                        </div>
-                                    </div>
-                                    <div class="devider"></div>
-                                    <div class="item">
-                                        <div class="name_type">
-                                            <h2>Drug Name</h2>
-                                            <p>Drug Type</p>
-                                        </div>
-                                        <div class="weight_generic">
-                                            <span>500mg</span>
-                                            <p>Generic Name</p>
-                                        </div>
-                                        <div class="how_when">
-                                            <p>
-                                                Take <span>1+1+1+1</span> for{" "}
-                                                <span>CONTINUE</span>
-                                            </p>
-                                            <span>AFTER MEAL</span>
-                                            <p>(25 doses)</p>
-                                        </div>
-                                    </div>
-                                    <div class="devider"></div>
-                                    <div class="item">
-                                        <div class="name_type">
-                                            <h2>Drug Name</h2>
-                                            <p>Drug Type</p>
-                                        </div>
-                                        <div class="weight_generic">
-                                            <span>500mg</span>
-                                            <p>Generic Name</p>
-                                        </div>
-                                        <div class="how_when">
-                                            <p>
-                                                Take <span>1+1+1+1</span> for{" "}
-                                                <span>CONTINUE</span>
-                                            </p>
-                                            <span>AFTER MEAL</span>
-                                            <p>(25 doses)</p>
-                                        </div>
-                                    </div>
+                                    <MedList medicines={medicines}/>
                                 </div>
                             </td>
                         </tr>
+                        <tbody>
                         <tr>
                             <td class="re-visit">Re-Visit</td>
                             <td class="signature">Signature</td>
                         </tr>
+                        </tbody>
                     </table>
-                </main>
-            </page> */}
+               /* </main>*/
+            // </page>
+            )}
         </>
     );
 };
