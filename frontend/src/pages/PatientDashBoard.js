@@ -12,12 +12,18 @@ import removeKey from "../util/RemoveKey";
 const PatientDashboard = () => {
 
     const [patient, setPatient] = useState(null)
-    const [medicines, setMedicines] = useState([])
+
+    const [runningMedicines, setRunningMedicines] = useState([])
+    const [pastMedicines, setPastMedicines] = useState([])
     const [showMedicines, setShowMedicines] = useState(false)
+    const [doctorList, setDoctorList] = useState([])
+    const [selectedDoc, setSelectedDoc] = useState('')
+
     const navigate = useNavigate()
 
     // keys will be removed for Details Card
     const toBeRemovedKey = ['PHOTO_URL']
+
 
     useEffect(() => {
         const getPatient = async () => {
@@ -33,37 +39,56 @@ const PatientDashboard = () => {
         (async ()=>{
             await getPatient()
         })()
-    }, []);
+    }, [])
 
 
+
+    const handleGetMedClick = async () => {
+        await getMyDocs()
+        await getMedicines()
+    }
+
+    const handleDoctorFilter = async(event) =>{
+        setSelectedDoc(event.target.value)
+    }
+
+    useEffect( () => {
+        if(selectedDoc) {
+            (async()=>{
+                console.log(selectedDoc + 'selected doctor')
+                await getMedicines()
+            })()
+        }
+    }, [selectedDoc])
 
 
     const getMedicines = async () => {
+        setSelectedDoc('')
         try {
-            const response = await axios.get("/patient/medicine/?month=100"); // Replace with medicines API endpoint
-            setMedicines(response.data);
-            setShowMedicines(true);
-            console.log(medicines);
+            const response = await axios.get(`/patient/medicine/?month=100&doctor=${selectedDoc}`); // Replace with runningMedicines API endpoint
+
+
+            setRunningMedicines(response.data.running)
+            setPastMedicines(response.data.past)
+            setShowMedicines(true)
         } catch (error) {
-            console.error("Error fetching medicines:", error);
+
+            console.error("Error fetching runningMedicines:", error)
         }
-    };
+    }
 
+    const getMyDocs = async () => {
+        try {
 
-    const tableStyle = {
-        width: "100%",
-        borderCollapse: "collapse",
-    };
+            const response = await axios.get("/patient/my-doctors")
+            setDoctorList(response.data)
 
-    const cellStyle = {
-        border: "1px solid #ccc",
-        padding: "8px",
-        textAlign: "left",
-    };
+            console.log(doctorList)
+        } catch (error) {
+            console.error("Error fetching my doctors", error)
+        }
+    }
 
-    const headerStyle = {
-        backgroundColor: "#f5f5f5",
-    };
 
     return (
         <>
@@ -81,6 +106,14 @@ const PatientDashboard = () => {
                                     <DetailsCard person={removeKey(patient,toBeRemovedKey)} />
                                 </div>
                             </div>
+                            <button
+                                className="btn btn-primary"
+                                type="button"
+                                onClick={event =>
+                                    navigate('../patient/edit-profile')}
+                            >
+                                Edit Profile
+                            </button>
                         </div>
 
                     ) : (
@@ -90,16 +123,25 @@ const PatientDashboard = () => {
                     <button
                         className="btn btn-primary"
                         type="button"
-                        onClick={getMedicines}
+                        onClick={handleGetMedClick}
                     >
                         Show recent medications
                     </button>
 
                     {showMedicines && (
-                        <div>
-                            <h2>Used Medicines</h2>
-                            <TableHeaders info={medicines}/>
-                        </div>
+                        <>
+                            <select className="form-select" aria-label="Default select example"
+                                    onChange={handleDoctorFilter}
+                            >
+                                {doctorList.map(({DOCTOR_NAME}) =>
+                                        <option key={DOCTOR_NAME} value={DOCTOR_NAME}> {DOCTOR_NAME} </option>
+                                )}
+                            </select>
+                            <div>
+                                <h2>Used Medicines</h2>
+                                <TableHeaders info={pastMedicines} highlightedInfo={runningMedicines}/>
+                            </div>
+                        </>
                     )}
                 </center>
             </div>

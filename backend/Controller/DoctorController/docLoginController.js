@@ -5,32 +5,26 @@ const jwt = require("jsonwebtoken");
 
 async function loginUser(req, res) {
     res.cookie("login", false, { httpOnly: true })
-    console.log('in login')
 
     try {
-        const { nid, password } = req.body;
+        const { nid, password } = req.body
 
-        const query = `SELECT PATIENT_ID, FIRST_NAME, LAST_NAME, PASSWORD
-                              FROM PATIENT
-                              WHERE PATIENT_ID = 'P${nid}'`;
+        const query = `SELECT *
+                              FROM DOCTOR
+                              WHERE DOCTOR_ID = 'D${nid}'`
 
-        const data = await db.executeQuery(query);
-        // data = array of object containing selected
-        // attributes
+        const data = await db.executeQuery(query)
+
         if (data.length === 0) {
             console.log("wrong nid");
             return res
                 .status(400)
-                .json({ success: false, message: "wrong nid" })
+                .json({ success: false, message: "wrong id" })
         }
         const {
-            PATIENT_ID: id,
-            FIRST_NAME: firstName,
-            LAST_NAME: lastName,
+            DOCTOR_ID: id,
             PASSWORD: hashPass,
         } = data[0]
-
-        const fullName = firstName + " " + lastName
 
         let checkPassword = await bcrypt.compare(password, hashPass)
 
@@ -49,8 +43,6 @@ async function loginUser(req, res) {
             success: true,
             message: "accepted",
             userToken: token,
-            id,
-            fullName,
         })
 
     } catch (error) {

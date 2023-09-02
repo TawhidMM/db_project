@@ -9,7 +9,7 @@ server.use(express.json());
 server.set('view engine', 'ejs')
 server.use(cookie_parser());
 
-const loginRouter = require('./Router/loginRouter')
+//const loginRouter = require('./Router/loginRouter')
 const patientRouter = require('./Router/patientRouter');
 
 /*// create database connection pool
@@ -25,7 +25,7 @@ server.listen(5005, ()=>{
 })
 
 
-server.use("/login", loginRouter)
+//server.use("/login", loginRouter)
 server.use("/patient", patientRouter)
 
 

@@ -6,7 +6,7 @@ const Home = () => {
     const handleLogout = async () => {
         try {
             await axios.post("/patient/logout");
-            navigate("/login");
+            navigate("/patient/login");
         } catch (error) {
             console.error("Error logging out:", error);
         }

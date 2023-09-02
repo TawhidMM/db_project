@@ -7,18 +7,6 @@ function Select({name, options, form}) {
     const [selected, setSelected] = useState("")
     const [formData, setFormData] = form
 
-   /* const handleChange = (event)=>{
-        setSelected(event.target.value)
-
-        setFormData({
-            ...formData,
-            [name]: selected,
-        })
-
-        console.log(selected)
-        //console.log(formData)
-    }*/
-
     useEffect(() => {
         if (selected) CallAPIWithSearchText(selected)
     }, [selected])
@@ -41,7 +29,6 @@ function Select({name, options, form}) {
                 index === 0 ?
                     <option key={item} value={item} disabled hidden> {item} </option> :
                     <option key={item} value={item}> {item} </option>
-
             )}
         </select>
     </>

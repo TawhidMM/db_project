@@ -1,5 +1,5 @@
 const db = require("../../orclConnection");
-const jwt = require("jsonwebtoken");
+require("jsonwebtoken");
 
 async function getDetails(req, res) {
     console.log(req.access_id + " get details of USER")
@@ -29,16 +29,18 @@ async function getDetails(req, res) {
 }
 
 async function getMedicine(req, res) {
-    console.log(req.access_id + " get medicine of USER");
+    console.log(req.access_id + " get medicine of USER")
 
-    const patientId = req.access_id;
+    const patientId = req.access_id
 
-    const sinceMonth = req.query.month;
+    const sinceMonth = req.query.month
+    const doctor = req.query.doctor
 
     console.log(sinceMonth);
 
-    //return res.status(200).send(sinceMonth);
-    const query = `SELECT  MEDICINE_NAME NAME, DOSAGE_AMOUNT DOSAGE, DOSAGE_FREQUENCY FREQUENCY, DURATION, TIMING ,
+    function getQuery(runningMedCondition) {
+
+        return `SELECT  MEDICINE_NAME NAME, DOSAGE_AMOUNT DOSAGE, DOSAGE_FREQUENCY FREQUENCY, DURATION, TIMING ,
                                                 (SELECT FIRST_NAME||' '||LAST_NAME
                                                 FROM PAST_APPOINTMENT pa LEFT JOIN DOCTOR d ON (pa.DOCTOR_ID=d.DOCTOR_ID)
                                                 WHERE pa.APPOINTMENT_ID= p.APPOINTMENT_ID) PRESCRIBED_BY,
@@ -49,21 +51,35 @@ async function getMedicine(req, res) {
 
                 FROM PRESCRIBED_MEDICINES p LEFT JOIN MEDICINE m ON (p.MEDICINE_ID=m.MEDICINE_ID)
                 WHERE p.APPOINTMENT_ID IN ( SELECT APPOINTMENT_ID
-                                            FROM PAST_APPOINTMENT A
+                                            FROM PAST_APPOINTMENT A JOIN DOCTOR D2
+                                            on A.DOCTOR_ID = D2.DOCTOR_ID
                                             WHERE PATIENT_ID = '${patientId}'
-                                            AND MONTHS_BETWEEN(SYSDATE, APPOINTMENT_DATE)<= ${sinceMonth})
-
+                                            AND (MONTHS_BETWEEN(SYSDATE, APPOINTMENT_DATE)<= ${sinceMonth}
+                                                OR GET_NULL(${sinceMonth}) IS NULL )
+                                            AND ((D2.FIRST_NAME || ' ' || D2.LAST_NAME) = '${doctor}'
+                                            OR GET_NULL('${doctor}') IS NULL )
+                                            AND ${runningMedCondition}
+                                            )
+                                            
                 ORDER BY TO_DATE(PRESCRIBED_ON,'DD MON YYYY') DESC, MEDICINE_NAME ASC`
+    }
+
+    const runningMedCond = `MED_RUNNING_INDEX(A.APPOINTMENT_DATE,
+                                'YYYY-MM-DD', P.DURATION) >= 0`
+    const pastMedCond = `MED_RUNNING_INDEX(A.APPOINTMENT_DATE,
+                                'YYYY-MM-DD', P.DURATION) < 0`
+
 
     try {
-        const data = await db.executeQuery(query);
+        const runningMeds = await db.executeQuery(getQuery(runningMedCond))
+        const pastMeds = await db.executeQuery(getQuery(pastMedCond))
 
-        return res.status(200).send(data);
+        return res.status(200).json({running: runningMeds,
+                                     past: pastMeds})
     } catch (error) {
         console.log(error);
         console.log("error in getMedicine");
     }
-    //return res.json({success: true});
 }
 
 
