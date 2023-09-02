@@ -2,7 +2,9 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-function Login() {
+function Login({user}) {
+    console.log(user)  //[][][][
+
     const [nid, setNid] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
@@ -14,30 +16,26 @@ function Login() {
         event.preventDefault();
 
         try {
-            const response = await axios.post("/login", { nid, password });
+            const response = await axios.post(`/${user}/login`, { nid, password });
 
             if (response.status === 200) {
-                const { id: id1, fullName: fullName1 } = response.data;
-
-                // redirect to this page
-                navigate(`../patient/dashboard`);
+                navigate(`../${user}/dashboard`)
             } else if (response.status === 404)
-                console.log("invalid id/password");
+                console.log("invalid id/password")
         } catch (error) {
-            console.error("Login failed:", error);
+            console.error("Login failed:", error)
         }
-    };
-
-    const handleLoginClick = () => {
+    }
+    const handleSignupClick = () => {
         navigate(`../patient/signup`);
-    };
+    }
 
     return (
         <>
-            <div class="header">
+            <div className="header">
                 <center>
                     <br />
-                    <h1>Medical portal for Patients</h1>
+                    <h1>Medical portal for {user}</h1>
                     <h2>Login</h2>
                     <br />
                     <br />
@@ -71,13 +69,15 @@ function Login() {
                 >
                     Log in
                 </button>
-                <button
-                    type="button"
-                    className="btn btn-link"
-                    onClick={handleLoginClick}
-                >
-                    Sign up
-                </button>
+                {user === 'patient' &&
+                    <button
+                        type="button"
+                        className="btn btn-link"
+                        onClick={handleSignupClick}
+                    >
+                        Sign up
+                    </button>
+                }
             </div>
         </>
     );

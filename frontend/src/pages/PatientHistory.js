@@ -10,25 +10,75 @@ import removeKey from "../util/RemoveKey";
 
 const PatientHistory = () => {
     const [medicines, setMedicines] = useState([]);
-    const [showMedicines, setShowMedicines] = useState(false);
     const [Appointments, setAppointments] = useState([]);
     const [showAppointments, setShowAppointments] = useState(false);
+    const [runningMedicines, setRunningMedicines] = useState([])
+    const [pastMedicines, setPastMedicines] = useState([])
+    const [showMedicines, setShowMedicines] = useState(false)
+    const [doctorList, setDoctorList] = useState([])
+    const [selectedDoc, setSelectedDoc] = useState('')
     const navigate = useNavigate();
 
     // keys will be removed for Details Card
     const toBeRemovedKey = ["PHOTO_URL"];
 
-    const getMedicines = async () => {
-        try {
-            const response = await axios.get("/patient/medicine/?month=100");
-            setMedicines(response.data);
-            setShowAppointments(false);
-            setShowMedicines(true);
-            console.log(medicines);
-        } catch (error) {
-            console.error("Error fetching medicines:", error);
+
+
+    const handleGetMedClick = async () => {
+        await getMyDocs()
+        await getMedicines()
+    }
+
+    const handleDoctorFilter = async(event) =>{
+        setSelectedDoc(event.target.value)
+    }
+
+    useEffect( () => {
+        if(selectedDoc) {
+            (async()=>{
+                console.log(selectedDoc + 'selected doctor')
+                await getMedicines()
+            })()
         }
-    };
+    }, [selectedDoc])
+
+
+
+
+const getMedicines = async () => {
+    setSelectedDoc('')
+    try {
+        const response = await axios.get(`/patient/medicine/?month=100&doctor=${selectedDoc}`); // Replace with runningMedicines API endpoint
+
+
+        setRunningMedicines(response.data.running)
+        setPastMedicines(response.data.past)
+        setShowAppointments(false);
+        setShowMedicines(true);
+    } catch (error) {
+
+        console.error("Error fetching runningMedicines:", error)
+    }
+}
+
+
+    const getMyDocs = async () => {
+    try {
+
+        const response = await axios.get("/patient/my-doctors")
+        setDoctorList(response.data)
+
+        console.log(doctorList)
+    } catch (error) {
+        console.error("Error fetching my doctors", error)
+    }
+}
+
+
+
+
+
+
 
     const getAppointments = async () => {
         try {
@@ -53,7 +103,7 @@ const PatientHistory = () => {
                     <button
                         className="btn btn-primary"
                         type="button"
-                        onClick={getMedicines}
+                        onClick={handleGetMedClick}
                     >
                         Show recent medications
                     </button>
@@ -66,15 +116,24 @@ const PatientHistory = () => {
                         Show recent Appointment List
                     </button>
                     {showMedicines && (
-                        <div>
-                            <h2>Used Medicines</h2>
-                            <TableHeaders info={medicines} />
-                        </div>
+                        <>
+                            <select className="form-select" aria-label="Default select example"
+                                    onChange={handleDoctorFilter}
+                            >
+                                {doctorList.map(({DOCTOR_NAME}) =>
+                                    <option key={DOCTOR_NAME} value={DOCTOR_NAME}> {DOCTOR_NAME} </option>
+                                )}
+                            </select>
+                            <div>
+                                <h2>Used Medicines</h2>
+                                <TableHeaders info={pastMedicines} highlightedInfo={runningMedicines}/>
+                            </div>
+                        </>
                     )}
                     {showAppointments && (
                         <div>
                             <h2>recent appointments</h2>
-                            <TableHeaders info={Appointments} />
+                            <TableHeaders info={Appointments} highlightedInfo={[]}/>
                         </div>
                     )}
                 </center>

@@ -27,8 +27,12 @@ function PatientSignUp() {
 
         console.log(formInput)
 
-        if(password !== confirmPassword)
+        if(password !== confirmPassword) {
             setPasswordMatch(false)
+
+            return
+        }
+
 
         try{
             const response = await axios.post("/patient/s", formInput)

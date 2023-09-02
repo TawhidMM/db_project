@@ -16,8 +16,14 @@ const Home = () => {
                         <li className="nav-item">
                             <a className="nav-link active" aria-current="page" href="/">Home</a>
                         </li>
-                        <li className="nav-item">
-                            <a className="nav-link" href="/login">Login</a>
+                        <li className="nav-item dropdown">
+                            <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="true">
+                                Login
+                            </a>
+                            <ul className="dropdown-menu">
+                                <li><a className="dropdown-item" href="/patient/login">Patient</a></li>
+                                <li><a className="dropdown-item" href="/doctor/login">Doctor</a></li>
+                            </ul>
                         </li>
                         <li className="nav-item">
                             <a className="nav-link" href="/patient/signup">Sign Up</a>

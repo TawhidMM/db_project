@@ -10,13 +10,22 @@ import TableHeaders from "../components/TableHeaders";
 import removeKey from "../util/RemoveKey";
 
 const PatientDashboard = () => {
-    const [patient, setPatient] = useState(null);
-    const [medicines, setMedicines] = useState([]);
-    const [showMedicines, setShowMedicines] = useState(false);
-    const navigate = useNavigate();
+
+
+    const [patient, setPatient] = useState(null)
+
+    const [runningMedicines, setRunningMedicines] = useState([])
+    const [pastMedicines, setPastMedicines] = useState([])
+    const [showMedicines, setShowMedicines] = useState(false)
+    const [doctorList, setDoctorList] = useState([])
+    const [selectedDoc, setSelectedDoc] = useState('')
+
+    const navigate = useNavigate()
+
 
     // keys will be removed for Details Card
     const toBeRemovedKey = ["PHOTO_URL"];
+
 
     useEffect(() => {
         const getPatient = async () => {
@@ -28,21 +37,11 @@ const PatientDashboard = () => {
             }
         };
 
-        (async () => {
-            await getPatient();
-        })();
-    }, []);
+        (async ()=>{
+            await getPatient()
+        })()
+    }, [])
 
-    // const getMedicines = async () => {
-    //     try {
-    //         const response = await axios.get("/patient/medicine/?month=100"); // Replace with medicines API endpoint
-    //         setMedicines(response.data);
-    //         setShowMedicines(true);
-    //         console.log(medicines);
-    //     } catch (error) {
-    //         console.error("Error fetching medicines:", error);
-    //     }
-    // };
 
     return (
         <>
@@ -65,25 +64,20 @@ const PatientDashboard = () => {
                                     />
                                 </div>
                             </div>
+                            <button
+                                className="btn btn-primary"
+                                type="button"
+                                onClick={event =>
+                                    navigate('../patient/edit-profile')}
+                            >
+                                Edit Profile
+                            </button>
                         </div>
                     ) : (
                         <p>No data</p>
                     )}
 
-                    {/* <button
-                        className="btn btn-primary"
-                        type="button"
-                        onClick={getMedicines}
-                    >
-                        Show recent medications
-                    </button>
 
-                    {showMedicines && (
-                        <div>
-                            <h2>Used Medicines</h2>
-                            <TableHeaders info={medicines}/>
-                        </div>
-                    )} */}
                 </center>
             </div>
         </>
