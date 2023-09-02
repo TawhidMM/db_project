@@ -39,7 +39,7 @@ const AppointmentPrescription = () => {
                 show prescription
             </button>
             {/* <page size="A4">
-                <main>
+                <main>g
                     <table>
                         <tr>
                             <td class="header" colspan="2">
