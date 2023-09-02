@@ -1,28 +1,43 @@
 import formatString from "../util/StringFormat";
 import React from "react";
-import {hasFormSubmit} from "@testing-library/user-event/dist/utils";
+import { hasFormSubmit } from "@testing-library/user-event/dist/utils";
 import Select from "./Select";
 
-function InputCard({infoState}) {
-    const [patientInfo, setInfo] = infoState
+function InputCard({ infoState }) {
+    const [patientInfo, setInfo] = infoState;
 
-    const { FIRST_NAME, LAST_NAME, EMAIL, STREET_ADDRESS,
-        CITY, POSTAL_CODE, SUB_DISTRICT, DISTRICT }
-            = patientInfo
+    const {
+        FIRST_NAME,
+        LAST_NAME,
+        EMAIL,
+        STREET_ADDRESS,
+        CITY,
+        POSTAL_CODE,
+        SUB_DISTRICT,
+        DISTRICT,
+    } = patientInfo;
 
-    const genderOptions = ['Female', 'Male']
-    const bloodGroups = ["Blood Group", "A+", "A-", "B+", "B-", "AB+",
-        "AB-", "O+", "O-",]
+    const genderOptions = ["Female", "Male"];
+    const bloodGroups = [
+        "Blood Group",
+        "A+",
+        "A-",
+        "B+",
+        "B-",
+        "AB+",
+        "AB-",
+        "O+",
+        "O-",
+    ];
 
     const updateInfo = (event, key) => {
         setInfo({
             ...patientInfo,
-            [key]: event.target.value
-        })
-    }
+            [key]: event.target.value,
+        });
+    };
 
-    const KeyValueRow = ({keyName, value}) => {
-
+    const KeyValueRow = ({ keyName, value }) => {
         return (
             <>
                 <div className="row">
@@ -30,15 +45,17 @@ function InputCard({infoState}) {
                         <p className="mb-0">{formatString(keyName)}</p>
                     </div>
                     <div className="col-sm-1">
-                        <input className="text-muted mb-7" value={value}
-                                onChange={event=>updateInfo(event,keyName)}
+                        <input
+                            className="text-muted mb-7"
+                            value={value}
+                            onChange={(event) => updateInfo(event, keyName)}
                         />
                     </div>
                 </div>
-                <hr/>
+                <hr />
             </>
-        )
-    }
+        );
+    };
 
     return (
         /*<div className="card mb-3 col-lg-5 mx-auto mt-3">
@@ -49,47 +66,57 @@ function InputCard({infoState}) {
             </div>
         </div>*/
 
-
-
-    <div className="card mb-3 col-lg-5 mx-auto mt-3">
-        <div className="card-body">
-            <div className="row">
-                <div className="col-sm-5">
-                    <p className="mb-0">FIRST NAME</p>
+        <div className="card mb-3 col-lg-5 mx-auto mt-3">
+            <div className="card-body">
+                <div className="row">
+                    <div className="col-sm-5">
+                        <p className="mb-0">FIRST NAME</p>
+                    </div>
+                    <div className="col-sm-1">
+                        <input
+                            className="text-muted mb-7"
+                            value={FIRST_NAME}
+                            name="FIRST_NAME"
+                            onChange={(event) =>
+                                updateInfo(event, event.target.name)
+                            }
+                        />
+                    </div>
                 </div>
-                <div className="col-sm-1">
-                    <input className="text-muted mb-7" value={FIRST_NAME}
-                           name='FIRST_NAME'
-                           onChange={event => updateInfo(event,event.target.name)}
-                    />
+                <hr />
+                <div className="row">
+                    <div className="col-sm-5">
+                        <p className="mb-0">LAST NAME</p>
+                    </div>
+                    <div className="col-sm-1">
+                        <input
+                            className="text-muted mb-7"
+                            value={LAST_NAME}
+                            name="LAST_NAME"
+                            onChange={(event) =>
+                                updateInfo(event, event.target.name)
+                            }
+                        />
+                    </div>
                 </div>
-            </div>
-            <hr/>
-            <div className="row">
-                <div className="col-sm-5">
-                    <p className="mb-0">FIRST NAME</p>
+                <hr />
+                <div className="row">
+                    <div className="col-sm-5">
+                        <p className="mb-0">EMAIL</p>
+                    </div>
+                    <div className="col-sm-1">
+                        <input
+                            className="text-muted mb-7"
+                            value={EMAIL}
+                            name="EMAIL"
+                            onChange={(event) =>
+                                updateInfo(event, event.target.name)
+                            }
+                        />
+                    </div>
                 </div>
-                <div className="col-sm-1">
-                    <input className="text-muted mb-7" value={LAST_NAME}
-                           name='LAST_NAME'
-                           onChange={event => updateInfo(event,event.target.name)}
-                    />
-                </div>
-            </div>
-            <hr/>
-            <div className="row">
-                <div className="col-sm-5">
-                    <p className="mb-0">EMAIL</p>
-                </div>
-                <div className="col-sm-1">
-                    <input className="text-muted mb-7" value={EMAIL}
-                           name='EMAIL'
-                           onChange={event => updateInfo(event,event.target.name)}
-                    />
-                </div>
-            </div>
-            <hr/>
-            {/*<div className="row">
+                <hr />
+                {/*<div className="row">
                 <div className="col-sm-5">
                     <p className="mb-0">GENDER</p>
                 </div>
@@ -106,7 +133,7 @@ function InputCard({infoState}) {
                 </div>
             </div>
             <hr/>*/}
-            {/*<div className="row">
+                {/*<div className="row">
                 <div className="col-sm-5">
                     <p className="mb-0">BLOOD GROUP</p>
                 </div>
@@ -123,70 +150,89 @@ function InputCard({infoState}) {
                 </div>
             </div>
             <hr/>*/}
-            <div className="row">
-                <div className="col-sm-5">
-                    <p className="mb-0">STREET ADDRESS</p>
+                <div className="row">
+                    <div className="col-sm-5">
+                        <p className="mb-0">STREET ADDRESS</p>
+                    </div>
+                    <div className="col-sm-1">
+                        <input
+                            className="text-muted mb-7"
+                            value={STREET_ADDRESS}
+                            name="STREET_ADDRESS"
+                            onChange={(event) =>
+                                updateInfo(event, event.target.name)
+                            }
+                        />
+                    </div>
                 </div>
-                <div className="col-sm-1">
-                    <input className="text-muted mb-7" value={STREET_ADDRESS}
-                           name='STREET_ADDRESS'
-                           onChange={event => updateInfo(event,event.target.name)}
-                    />
+                <hr />
+                <div className="row">
+                    <div className="col-sm-5">
+                        <p className="mb-0">CITY</p>
+                    </div>
+                    <div className="col-sm-1">
+                        <input
+                            className="text-muted mb-7"
+                            value={CITY}
+                            name="CITY"
+                            onChange={(event) =>
+                                updateInfo(event, event.target.name)
+                            }
+                        />
+                    </div>
                 </div>
+                <hr />
+                <div className="row">
+                    <div className="col-sm-5">
+                        <p className="mb-0">POST CODE</p>
+                    </div>
+                    <div className="col-sm-1">
+                        <input
+                            className="text-muted mb-7"
+                            value={POSTAL_CODE}
+                            name="POSTAL_CODE"
+                            onChange={(event) =>
+                                updateInfo(event, event.target.name)
+                            }
+                        />
+                    </div>
+                </div>
+                <hr />
+                <div className="row">
+                    <div className="col-sm-5">
+                        <p className="mb-0">SUB DISTRICT</p>
+                    </div>
+                    <div className="col-sm-1">
+                        <input
+                            className="text-muted mb-7"
+                            value={SUB_DISTRICT}
+                            name="SUB_DISTRICT"
+                            onChange={(event) =>
+                                updateInfo(event, event.target.name)
+                            }
+                        />
+                    </div>
+                </div>
+                <hr />
+                <div className="row">
+                    <div className="col-sm-5">
+                        <p className="mb-0">DISTRICT</p>
+                    </div>
+                    <div className="col-sm-1">
+                        <input
+                            className="text-muted mb-7"
+                            value={DISTRICT}
+                            name="DISTRICT"
+                            onChange={(event) =>
+                                updateInfo(event, event.target.name)
+                            }
+                        />
+                    </div>
+                </div>
+                <hr />
             </div>
-            <hr/>
-            <div className="row">
-                <div className="col-sm-5">
-                    <p className="mb-0">CITY</p>
-                </div>
-                <div className="col-sm-1">
-                    <input className="text-muted mb-7" value={CITY}
-                           name='CITY'
-                           onChange={event => updateInfo(event,event.target.name)}
-                    />
-                </div>
-            </div>
-            <hr/>
-            <div className="row">
-                <div className="col-sm-5">
-                    <p className="mb-0">POST CODE</p>
-                </div>
-                <div className="col-sm-1">
-                    <input className="text-muted mb-7" value={POSTAL_CODE}
-                           name='POSTAL_CODE'
-                           onChange={event => updateInfo(event,event.target.name)}
-                    />
-                </div>
-            </div>
-            <hr/>
-            <div className="row">
-                <div className="col-sm-5">
-                    <p className="mb-0">SUB DISTRICT</p>
-                </div>
-                <div className="col-sm-1">
-                    <input className="text-muted mb-7" value={SUB_DISTRICT}
-                           name='SUB_DISTRICT'
-                           onChange={event => updateInfo(event,event.target.name)}
-                    />
-                </div>
-            </div>
-            <hr/>
-            <div className="row">
-                <div className="col-sm-5">
-                    <p className="mb-0">DISTRICT</p>
-                </div>
-                <div className="col-sm-1">
-                    <input className="text-muted mb-7" value={DISTRICT}
-                           name='DISTRICT'
-                           onChange={event => updateInfo(event,event.target.name)}
-                    />
-                </div>
-            </div>
-            <hr/>
         </div>
-    </div>
-
-    )
+    );
 }
 
-export default InputCard
+export default InputCard;

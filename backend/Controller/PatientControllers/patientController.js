@@ -2,10 +2,9 @@ const db = require("../../orclConnection");
 require("jsonwebtoken");
 
 async function getDetails(req, res) {
-    console.log(req.access_id + " get details of USER")
+    console.log(req.access_id + " get details of USER");
 
-    const patientId = req.access_id
-
+    const patientId = req.access_id;
 
     const query = `SELECT FIRST_NAME ||' '||LAST_NAME FULLNAME, EMAIL, GENDER, TO_CHAR(DOB, 'DD MONTH YYYY') DOB, BLOOD_GROUP, PHOTO_URL ,
                         (SELECT STREET_ADDRESS||' '||CITY||', '||SUB_DISTRICT||', '||DISTRICT||', '||POSTAL_CODE 
@@ -31,18 +30,16 @@ async function getDetails(req, res) {
 }
 
 async function getMedicine(req, res) {
-    console.log(req.access_id + " get medicine of USER")
+    console.log(req.access_id + " get medicine of USER");
 
-    const patientId = req.access_id
+    const patientId = req.access_id;
 
-    const sinceMonth = req.query.month
-    const doctor = req.query.doctor
+    const sinceMonth = req.query.month;
+    const doctor = req.query.doctor;
 
     console.log(sinceMonth);
 
-
     function getQuery(runningMedCondition) {
-
         return `SELECT  MEDICINE_NAME NAME, DOSAGE_AMOUNT DOSAGE, DOSAGE_FREQUENCY FREQUENCY, DURATION, TIMING ,
                                                 (SELECT FIRST_NAME||' '||LAST_NAME
                                                 FROM PAST_APPOINTMENT pa LEFT JOIN DOCTOR d ON (pa.DOCTOR_ID=d.DOCTOR_ID)
@@ -51,7 +48,7 @@ async function getMedicine(req, res) {
                                                 TO_CHAR( (SELECT APPOINTMENT_DATE
                                                 FROM PAST_APPOINTMENT pa LEFT JOIN DOCTOR d ON (pa.DOCTOR_ID=d.DOCTOR_ID)
                                                 WHERE pa.APPOINTMENT_ID= p.APPOINTMENT_ID), 'DD MON YYYY') Prescribed_on,
-                                                TILLDATE(APPOINTMENT_ID,m.MEDICINE_ID) TILL
+                                                TILLDATE(APPOINTMENT_ID,m.MEDICINE_ID) TILL, m.DESCRIPTION MED_URL
 
                 FROM PRESCRIBED_MEDICINES p LEFT JOIN MEDICINE m ON (p.MEDICINE_ID=m.MEDICINE_ID)
                 WHERE p.APPOINTMENT_ID IN ( SELECT APPOINTMENT_ID
@@ -64,27 +61,24 @@ async function getMedicine(req, res) {
                                             OR GET_NULL('${doctor}') IS NULL )
                                             AND ${runningMedCondition}
                                             )                          
-                ORDER BY TO_DATE(PRESCRIBED_ON,'DD MON YYYY') DESC, MEDICINE_NAME ASC`
+                ORDER BY TO_DATE(PRESCRIBED_ON,'DD MON YYYY') DESC, MEDICINE_NAME ASC`;
     }
 
     const runningMedCond = `MED_RUNNING_INDEX(A.APPOINTMENT_DATE,
-                                'YYYY-MM-DD', P.DURATION) >= 0`
+                                'YYYY-MM-DD', P.DURATION) >= 0`;
     const pastMedCond = `MED_RUNNING_INDEX(A.APPOINTMENT_DATE,
-                                'YYYY-MM-DD', P.DURATION) < 0`
-
+                                'YYYY-MM-DD', P.DURATION) < 0`;
 
     try {
-        const runningMeds = await db.executeQuery(getQuery(runningMedCond))
-        const pastMeds = await db.executeQuery(getQuery(pastMedCond))
+        const runningMeds = await db.executeQuery(getQuery(runningMedCond));
+        const pastMeds = await db.executeQuery(getQuery(pastMedCond));
 
-        return res.status(200).json({running: runningMeds,
-                                     past: pastMeds})
+        return res.status(200).json({ running: runningMeds, past: pastMeds });
     } catch (error) {
         console.log(error);
         console.log("error in getMedicine");
     }
 }
-
 
 async function getAppointmentList(req, res) {
     console.log(req.access_id + " get AppointmentList of USER");

@@ -58,7 +58,7 @@ const Home = () => {
                             <a
                                 className="nav-link"
                                 onClick={handleLogout}
-                                href="/login"
+                                href="/patient/login"
                             >
                                 Log out
                             </a>
