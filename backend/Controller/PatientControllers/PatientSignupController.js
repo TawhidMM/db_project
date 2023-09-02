@@ -1,6 +1,6 @@
-const {executeQuery} = require('../orclConnection')
-const hashPassword = require('../password')
-const errorMsg = require('../Utils/OrclErrorMap')
+const {executeQuery} = require('../../orclConnection')
+const hashPassword = require('../../password')
+const errorMsg = require('../../Utils/OrclErrorMap')
 
 async function signupPatient(req, res) {
     console.log('got here')

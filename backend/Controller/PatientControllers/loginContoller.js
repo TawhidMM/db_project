@@ -1,4 +1,4 @@
-const db = require("../orclConnection");
+const db = require("../../orclConnection");
 //const connection = require("../orclConnection");
 const bcrypt = require("bcrypt");
 

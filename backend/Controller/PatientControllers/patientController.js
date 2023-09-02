@@ -1,16 +1,16 @@
-const db = require("../orclConnection");
+const db = require("../../orclConnection");
 const jwt = require("jsonwebtoken");
 
 async function getDetails(req, res) {
-    console.log(req.access_id + " get details of USER");
+    console.log(req.access_id + " get details of USER")
 
-    const patientId = req.access_id;
+    const patientId = req.access_id
 
     const query = `SELECT FIRST_NAME ||' '||LAST_NAME FULL_NAME, 
                           EMAIL, GENDER, TO_CHAR(DOB, 'DD MONTH YYYY') DOB, 
                           BLOOD_GROUP, ADDRESS_ID, PHOTO_URL
                           FROM PATIENT
-                          WHERE PATIENT_ID = '${patientId}'`;
+                          WHERE PATIENT_ID = '${patientId}'`
 
     try {
         const data = await db.executeQuery(query);
@@ -22,7 +22,7 @@ async function getDetails(req, res) {
 
         return res.status(200).send(data);
     } catch (error) {
-        console.log("error in getdetails");
+        console.log("error in get details");
 
         console.log(error);
     }
@@ -65,6 +65,7 @@ async function getMedicine(req, res) {
     }
     //return res.json({success: true});
 }
+
 
 async function logOut(req, res) {
     res.cookie("login", "", { httpOnly: true });
