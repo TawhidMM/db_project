@@ -133,7 +133,7 @@ const getMedicines = async () => {
                     {showAppointments && (
                         <div>
                             <h2>recent appointments</h2>
-                            <TableHeaders info={Appointments} />
+                            <TableHeaders info={Appointments} highlightedInfo={[]}/>
                         </div>
                     )}
                 </center>

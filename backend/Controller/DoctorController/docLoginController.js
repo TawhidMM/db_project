@@ -3,7 +3,7 @@ const bcrypt = require("bcrypt");
 
 const jwt = require("jsonwebtoken");
 
-async function loginUser(req, res) {
+async function loginDoctor(req, res) {
     res.cookie("login", false, { httpOnly: true })
 
     try {
@@ -51,4 +51,4 @@ async function loginUser(req, res) {
     }
 }
 
-module.exports = loginUser
+module.exports = loginDoctor
