@@ -33,16 +33,16 @@ const PatientDashboard = () => {
         })();
     }, []);
 
-    // const getMedicines = async () => {
-    //     try {
-    //         const response = await axios.get("/patient/medicine/?month=100"); // Replace with medicines API endpoint
-    //         setMedicines(response.data);
-    //         setShowMedicines(true);
-    //         console.log(medicines);
-    //     } catch (error) {
-    //         console.error("Error fetching medicines:", error);
-    //     }
-    // };
+    const getMedicines = async () => {
+        try {
+            const response = await axios.get("/patient/medicine/?month=100"); // Replace with medicines API endpoint
+            setMedicines(response.data);
+            setShowMedicines(true);
+            console.log(medicines);
+        } catch (error) {
+            console.error("Error fetching medicines:", error);
+        }
+    };
 
     return (
         <>
@@ -70,7 +70,7 @@ const PatientDashboard = () => {
                         <p>No data</p>
                     )}
 
-                    {/* <button
+                     <button
                         className="btn btn-primary"
                         type="button"
                         onClick={getMedicines}
@@ -83,7 +83,7 @@ const PatientDashboard = () => {
                             <h2>Used Medicines</h2>
                             <TableHeaders info={medicines}/>
                         </div>
-                    )} */}
+                    )}
                 </center>
             </div>
         </>
