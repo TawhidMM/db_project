@@ -9,18 +9,17 @@ import TableHeaders from "../components/TableHeaders";
 import removeKey from "../util/RemoveKey";
 
 const PatientHistory = () => {
-    const [medicines, setMedicines] = useState([]);
-    const [Appointments, setAppointments] = useState([]);
-    const [showAppointments, setShowAppointments] = useState(false);
+
+    const [appointments, setAppointments] = useState([])
+    const [showAppointments, setShowAppointments] = useState(false)
+    const [appointmentLinks, setAppointmentLinks] = useState([])
     const [runningMedicines, setRunningMedicines] = useState([])
     const [pastMedicines, setPastMedicines] = useState([])
     const [showMedicines, setShowMedicines] = useState(false)
     const [doctorList, setDoctorList] = useState([])
     const [selectedDoc, setSelectedDoc] = useState('')
-    const navigate = useNavigate();
 
-    // keys will be removed for Details Card
-    const toBeRemovedKey = ["PHOTO_URL"];
+
 
 
 
@@ -44,15 +43,22 @@ const PatientHistory = () => {
 
 
 
+let runningMedLinks = []
+    let pastMedLinks = []
 
-const getMedicines = async () => {
+    const getMedicines = async () => {
     setSelectedDoc('')
     try {
         const response = await axios.get(`/patient/medicine/?month=100&doctor=${selectedDoc}`); // Replace with runningMedicines API endpoint
 
-
         setRunningMedicines(response.data.running)
         setPastMedicines(response.data.past)
+
+        runningMedLinks = response.data.running.map(med => med.MED_URL)
+        pastMedLinks = response.data.past.map(med => med.MED_URL)
+
+        console.log(response.data.running)
+
         setShowAppointments(false);
         setShowMedicines(true);
     } catch (error) {
@@ -75,20 +81,22 @@ const getMedicines = async () => {
 }
 
 
-
-
-
-
-
-    const getAppointments = async () => {
+const getAppointments = async () => {
         try {
             const response = await axios.get(
                 "/patient/history/appointmentList"
             );
-            setAppointments(response.data);
-            setShowMedicines(false);
-            setShowAppointments(true);
-            console.log(Appointments);
+
+            setAppointments(response.data)
+
+            setAppointmentLinks(response.data.map(a=>
+                `http://localhost:3000/patient/history/appointment/?appointment_id=${a.APPOINTMENT_ID}`)
+            )
+
+
+            setShowMedicines(false)
+            setShowAppointments(true)
+
         } catch (error) {
             console.error("Error fetching medicines:", error);
         }
@@ -126,14 +134,23 @@ const getMedicines = async () => {
                             </select>
                             <div>
                                 <h2>Used Medicines</h2>
-                                <TableHeaders info={pastMedicines} highlightedInfo={runningMedicines}/>
+                                <TableHeaders
+                                    highlightedInfo={runningMedicines}
+                                    highlightedLinks={runningMedLinks}
+                                    info={pastMedicines}
+                                    links={pastMedLinks}
+                                />
                             </div>
                         </>
                     )}
                     {showAppointments && (
                         <div>
                             <h2>recent appointments</h2>
-                            <TableHeaders info={Appointments} highlightedInfo={[]}/>
+                            <TableHeaders
+                                info={appointments}
+                                highlightedInfo={[]}
+                                links={appointmentLinks}
+                            />
                         </div>
                     )}
                 </center>

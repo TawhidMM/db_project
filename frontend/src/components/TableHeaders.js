@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import formatString from "../util/StringFormat";
 
-function TableHeaders({info, highlightedInfo}) {
+function TableHeaders({info, highlightedInfo, links, highlightedLinks}) {
     let header = []
 
     if(info.length !== 0)
@@ -12,6 +12,8 @@ function TableHeaders({info, highlightedInfo}) {
     else
         return <></>
 
+
+    console.log(links, 'links in Table')
 
     return (
         <table className="table table-striped">
@@ -31,7 +33,7 @@ function TableHeaders({info, highlightedInfo}) {
                     {Object.keys(rows).map((key,colIndex) =>
                         <td key={key}>
                             {colIndex === 0 ? (
-                                <a href={rows['MED_URL']}
+                                <a href={highlightedLinks[rowIndex]}
                                    target="_blank"
                                    rel="noopener noreferrer"
                                 >
@@ -50,7 +52,7 @@ function TableHeaders({info, highlightedInfo}) {
                         {Object.keys(rows).map((key,colIndex) =>
                             <td key={key}>
                                 {colIndex === 0 ? (
-                                    <a href={rows['MED_URL']}
+                                    <a href={links[rowIndex]}
                                        target="_blank"
                                        rel="noopener noreferrer"
                                     >
