@@ -1,10 +1,10 @@
 import React from "react";
-import "../pages/AppointmentPrescription.css"
+import "../pages/AppointmentPrescription.css";
 
-function MedList({medicines}) {
+function MedList({ medicines }) {
     return (
         <>
-            {medicines.map(med =>(
+            {medicines.map((med) => (
                 <>
                     <div className="item">
                         <div className="name_type">
@@ -26,7 +26,7 @@ function MedList({medicines}) {
                 </>
             ))}
         </>
-    )
+    );
 }
 
-export default MedList
+export default MedList;
