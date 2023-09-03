@@ -1,5 +1,5 @@
-import React from "react";
-import "../pages/AppointmentPrescription.css";
+import React from "react"
+import "../pages/AppointmentPrescription.css"
 
 function MedList({ medicines }) {
     return (
@@ -16,17 +16,17 @@ function MedList({ medicines }) {
                         <div className="how_when">
                             <p>
                                 Take <span>{med.DOSAGE_FREQUENCY}</span> for{" "}
-                                <span>{med.TILL}</span>
+                                <span>{med.DURATION} DAYS</span>
                             </p>
                             <span>{med.TIMING}</span>
-                            <p>(FOR {med.DURATION} DAYS)</p>
+                            <p>(Till: {med.TILL})</p>
                         </div>
                     </div>
                     <div className="devider"></div>
                 </>
             ))}
         </>
-    );
+    )
 }
 
-export default MedList;
+export default MedList
