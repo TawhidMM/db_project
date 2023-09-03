@@ -1,12 +1,15 @@
-function removeKey(jsnObject, keysToBeRemoved) {
-    const updatedJsonObject = { ...jsnObject }
-
-    keysToBeRemoved.forEach(key => {
-
-        delete updatedJsonObject[key]
+function removeFromArray(jsonArray, keysToRemove) {
+    return jsonArray.map(obj => {
+        keysToRemove.forEach(key => {
+            delete obj[key]
+        })
+        return obj
     })
-
-    return updatedJsonObject
 }
 
-export default removeKey
+export default removeFromArray
+
+
+
+
+

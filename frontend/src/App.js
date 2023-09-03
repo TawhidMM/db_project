@@ -20,7 +20,7 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js'
 import PatientHistory from "./pages/PatientHistory";
 import EditPatientProfile from "./pages/EditPatientProfile";
 import AddPrescription from "./pages/AddPrescription";
-import Demo from "./components/Demo";
+import LiveSearch from "./components/LiveSearch";
 
 
 const router = createBrowserRouter(
@@ -41,7 +41,7 @@ const router = createBrowserRouter(
             <Route path={"/patient/signup"} element={<PatientSignUp />} />
             <Route path={'/patient/edit-profile'} element={<EditPatientProfile/>} />
             <Route path={'/add-med'} element={<AddPrescription/>} />
-            <Route path={"/demo"} element={<Demo />} />
+            <Route path={"/demo"} element={<LiveSearch options={['a', 'b', 'c']}/>} />
         </Route>
     )
 );

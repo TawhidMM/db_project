@@ -24,7 +24,7 @@ const PatientDashboard = () => {
 
 
     // keys will be removed for Details Card
-    const toBeRemovedKey = ["PHOTO_URL"];
+    const toBeRemovedKey = ["PHOTO_URL"]
 
 
     useEffect(() => {
@@ -57,10 +57,7 @@ const PatientDashboard = () => {
                                 </div>
                                 <div className="col-lg-8">
                                     <DetailsCard
-                                        person={removeKey(
-                                            patient,
-                                            toBeRemovedKey
-                                        )}
+                                        person={removeKey([patient],toBeRemovedKey)[0]}
                                     />
                                 </div>
                             </div>

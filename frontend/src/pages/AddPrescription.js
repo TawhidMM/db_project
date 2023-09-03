@@ -1,14 +1,41 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import MedicineInput from "../components/MedicineInput";
 import DynamicInput from "../components/DynamicInput";
+import axios from "axios";
 
 function MedicineForm() {
     const [medicines, setMedicines] = useState([
-                                                                { name: '', dose: '', frequency: '',duration:'', timing:''}])
+        { name: '', dose: '', frequency: '',duration:'', timing:''}])
     const [diseases, setDiseases] = useState([''])
     const [tests, setTests] = useState([''])
-    const [condition, setCondition] = useState({bloodPressure: '',
-                        heartRate: '', weight: '', height: '', symptoms: ''})
+    const [condition, setCondition] = useState(
+        {bloodPressure: '', heartRate: '', weight: '', height: '', symptoms: ''})
+
+    const [medDbInfo, setMedDbInfo] = useState(
+        {allMeds:[], allDiseases:[], allTests:[]})
+
+
+    useEffect(() => {
+        (async () =>{
+            try {
+                const medResponse = await axios.get('/info/all-medicines')
+                const disResponse = await axios.get('/info/all-diseases')
+                const testResponse = await axios.get('/info/all-tests')
+
+                setMedDbInfo( ({
+                    ...medDbInfo,
+                    ['allMeds']: medResponse.data,
+                    ['allDiseases']: disResponse.data,
+                    ['allTests']: testResponse.data
+                }))
+
+                console.log(medDbInfo)
+
+            } catch (error) {
+                console.error('error in getting all med info', error)
+            }
+        })()
+    }, [])
 
     const handleConditionChange = (event)=>{
         const {name, value} = event.target
@@ -100,18 +127,28 @@ function MedicineForm() {
 
                 <br/>
                 <br/>
-                <MedicineInput medicines={medicines} setMedicines={setMedicines}/>
+                <MedicineInput
+                    medicines={medicines}
+                    setMedicines={setMedicines}
+                    options={medDbInfo.allMeds}
+                />
                 <br/>
                 <br/>
                 <br/>
                 <div className="row">
                     <div className="col">
                         <lebel>Diseases</lebel>
-                        <DynamicInput elements={diseases} setElement={setDiseases}/>
+                        <DynamicInput
+                            elements={diseases}
+                            setElement={setDiseases}
+                            options={medDbInfo.allDiseases}
+                        />
                     </div>
                     <div className="col">
                         <lebel>Test</lebel>
-                        <DynamicInput elements={tests} setElement={setTests}/>
+                        <DynamicInput elements={tests} setElement={setTests}
+                                      options={medDbInfo.allTests}
+                        />
                     </div>
                 </div>
                 <br/>

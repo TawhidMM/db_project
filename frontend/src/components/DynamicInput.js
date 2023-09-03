@@ -1,6 +1,20 @@
-import React from "react";
+import React, {useEffect, useState} from "react"
 
-function DynamicInput({elements, setElement, allOptions}) {
+
+function DynamicInput({elements, setElement, options}) {
+    const [listName, setListName] = useState('')
+
+
+    /*useEffect(() => {
+        if(listName)
+            setListName(Object.keys(options[0])[0])
+    }, [])
+
+    setListName(Object.keys(options[0])[0])*/
+
+
+    console.log(listName, 'list')
+    console.log(options, 'options')
 
     const handleChange = (e, index) => {
         const {value} = e.target
@@ -19,14 +33,14 @@ function DynamicInput({elements, setElement, allOptions}) {
             {elements.map((medicine, index) => (
                 <div key={index} className="row mb-1" >
                     <div className="col-sm-4">
-                        {/*<input
-                            className="form-control"
-                            onChange={(e) =>
-                                handleChange(e, index)}
-                        />*/}
-
-
-
+                        <input className="form-control" list={listName}
+                               onChange={(e) =>
+                                   handleChange(e, index)}
+                        />
+                        <datalist id={listName}>
+                            {options.map((value) =>
+                                <option key={value[listName]} value={value[listName]}/> )}
+                        </datalist>
                     </div>
                 </div>
             ))}

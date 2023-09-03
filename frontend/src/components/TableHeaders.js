@@ -13,8 +13,6 @@ function TableHeaders({info, highlightedInfo, links, highlightedLinks}) {
         return <></>
 
 
-    console.log(links, 'links in Table')
-
     return (
         <table className="table table-striped">
             <thead>
@@ -69,7 +67,7 @@ function TableHeaders({info, highlightedInfo, links, highlightedLinks}) {
 }
 
 TableHeaders.prototype = {
-    info: PropTypes.array.isRequired
+    infoRouter: PropTypes.array.isRequired
 }
 
 export default TableHeaders

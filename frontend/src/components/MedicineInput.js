@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import InputField from "./InputField";
 
-function MedicineInput({medicines, setMedicines}) {
+function MedicineInput({medicines, setMedicines, options}) {
 
     const handleChange = (e, index) => {
         const { name, value } = e.target;
@@ -42,8 +42,13 @@ function MedicineInput({medicines, setMedicines}) {
                             name="name"
                             className="form-control"
                             value={medicine.name}
+                            list="medList"
                             onChange={(e) => handleChange(e, index)}
                         />
+                        <datalist id="medList">
+                            {options.map(({NAME})=>
+                                <option key={NAME} value={NAME}/> )}
+                        </datalist>
                     </div>
                     <div className="col-sm-2">
                         <input
@@ -81,7 +86,7 @@ function MedicineInput({medicines, setMedicines}) {
                     </div>
                 </div>
             ))}
-            <button type="button" className="btn btn-outline-info" onClick={handleAddMedicine}>
+            <button type="button" className="btn btn-outline-infoRouter" onClick={handleAddMedicine}>
                 Add Medicine
             </button>
 

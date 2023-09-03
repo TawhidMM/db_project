@@ -11,9 +11,9 @@ import MedList from "../components/MedList";
 const AppointmentPrescription = () => {
     const navigate = useNavigate();
     const query = new URLSearchParams(useLocation().search);
-    const appointment_id = query.get("appointment_id")
-    const [details, setDetails] = useState(null)
-    const [medicines, setMedicines] = useState(null)
+    const appointment_id = query.get("appointment_id");
+    const [details, setDetails] = useState(null);
+    const [medicines, setMedicines] = useState(null);
     const [showMedicines, setShowMedicines] = useState(false);
 
     useEffect(() => {
@@ -26,14 +26,13 @@ const AppointmentPrescription = () => {
                 setDetails(response.data.details[0]);
                 setMedicines(response.data.medicines);
 
-                console.log(details)
-                console.log(medicines)
+                console.log(details);
+                console.log(medicines);
             } catch (error) {
                 console.error("Error fetching patient information:", error);
             }
         };
         getPrescription();
-
     }, []);
     const getPrescription2 = async () => {
         try {
@@ -44,8 +43,8 @@ const AppointmentPrescription = () => {
             setDetails(response.data.details[0]);
             setMedicines(response.data.medicines);
 
-            console.log(details)
-            console.log(medicines)
+            console.log(details);
+            console.log(medicines);
             setShowMedicines(true);
         } catch (error) {
             console.error("Error fetching patient information:", error);
@@ -55,13 +54,17 @@ const AppointmentPrescription = () => {
     return (
         <>
             <PatientHeader />
-            <button className="btn btn-primary" type="button" onClick={getPrescription2}>
+            <button
+                className="btn btn-primary"
+                type="button"
+                onClick={getPrescription2}
+            >
                 show prescription
             </button>
             {showMedicines && (
-            // <page className="page" size="A4">
-                    <table>
-                        <tbody>
+                // <page className="page" size="A4">
+                <table>
+                    <tbody>
                         <tr>
                             <td class="header" colSpan="2">
                                 <div class="chamber-details">
@@ -97,8 +100,8 @@ const AppointmentPrescription = () => {
                                 </div>
                             </td>
                         </tr>
-                        </tbody>
-                        <tbody>
+                    </tbody>
+                    <tbody>
                         <tr>
                             <td class="patient" colSpan="2">
                                 <div>
@@ -114,50 +117,49 @@ const AppointmentPrescription = () => {
                                 </div>
                             </td>
                         </tr>
-                        </tbody>
-                        <tr>
-                            <td class="d-info">
-                                <div class="symp">
-                                    <h1>SYMPTOMPS</h1>
-                                    <ul>
-                                        <li>Cold</li>
-                                        <li>Fever</li>
-                                        <li>Itch</li>
-                                        <li>Insomnia</li>
-                                    </ul>
-                                </div>
-                                <div class="test">
-                                    <h1>TESTS</h1>
-                                    <ul>
-                                        <li>Cold</li>
-                                        <li>Fever</li>
-                                        <li>Itch</li>
-                                        <li>Insomnia</li>
-                                    </ul>
-                                </div>
-                                <div class="adv">
-                                    <h1>ADVICE</h1>
-                                    <p>
-                                        lorem ipsum dolor sit amet condfesaki
-                                        likam
-                                    </p>
-                                </div>
-                            </td>
-                            <td class="medicine">
-                                <div class="med-list">
-                                    <MedList medicines={medicines}/>
-                                </div>
-                            </td>
-                        </tr>
-                        <tbody>
+                    </tbody>
+                    <tr>
+                        <td class="d-infoRouter">
+                            <div class="symp">
+                                <h1>SYMPTOMPS</h1>
+                                <ul>
+                                    <li>Cold</li>
+                                    <li>Fever</li>
+                                    <li>Itch</li>
+                                    <li>Insomnia</li>
+                                </ul>
+                            </div>
+                            <div class="test">
+                                <h1>TESTS</h1>
+                                <ul>
+                                    <li>Cold</li>
+                                    <li>Fever</li>
+                                    <li>Itch</li>
+                                    <li>Insomnia</li>
+                                </ul>
+                            </div>
+                            <div class="adv">
+                                <h1>ADVICE</h1>
+                                <p>
+                                    lorem ipsum dolor sit amet condfesaki likam
+                                </p>
+                            </div>
+                        </td>
+                        <td class="medicine">
+                            <div class="med-list">
+                                <MedList medicines={medicines} />
+                            </div>
+                        </td>
+                    </tr>
+                    <tbody>
                         <tr>
                             <td class="re-visit">Re-Visit</td>
                             <td class="signature">Signature</td>
                         </tr>
-                        </tbody>
-                    </table>
-               /* </main>*/
-            // </page>
+                    </tbody>
+                </table>
+                /* </main>*/
+                // </page>
             )}
         </>
     );
