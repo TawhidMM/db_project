@@ -1,36 +1,39 @@
-@import url('https://fonts.googleapis.com/css?family=Montserrat:300|Proza+Libre|Roboto|Work+Sans&display=swap');
+@import url("https://fonts.googleapis.com/css?family=Montserrat:300|Proza+Libre|Roboto|Work+Sans&display=swap");
 body {
-    background: rgb(204,204,204);
+    background: rgb(204, 204, 204);
 }
 page {
     background: white;
     display: block;
     margin: 0 auto;
     margin-bottom: 2.5cm;
-    box-shadow: 0 0 0.5cm rgba(0,0,0,0.5);
+    /* box-shadow: 0 0 0.5cm rgba(0, 0, 0, 0.5);*/
 }
 page[size="A4"] {
-    width: 40cm;
-    height: 29.7cm;
+    width: 10cm;
+    height: 37.7cm;
 }
 
 @media print {
-    body, page {
+    body,
+    page {
         margin: 1;
         box-shadow: 0;
     }
 }
 main {
-    width: 40cm;
-    height: 29.60cm;
+    width: 30cm;
+    height: 37.6cm;
     border: 0.1cm #ccc solid;
     display: block;
+    box-shadow: 0 0 0.5cm rgba(0, 0, 0, 0.5);
 }
-td {
-    border: 1cm solid rgba(0, 0, 0, 0.1);
-}
-td.header, td.patient {
-    width: 40cm;
+/* td {
+    border: 0.03cm solid rgba(0, 0, 0, 0.1);
+} */
+td.header,
+td.patient {
+    width: 30cm;
 }
 td.header {
     height: 4.404cm;
@@ -47,8 +50,8 @@ td.header {
     align-items: center;
 }
 .logo img {
-    width: 2cm;
-    height: 2cm;
+    width: 3cm;
+    height: 3cm;
 }
 .credentials {
     flex: 3;
@@ -56,13 +59,13 @@ td.header {
     flex-direction: column;
     justify-content: center;
     text-align: center;
-    font-family: 'Montserrat', sans-serif;
+    font-family: "Montserrat", sans-serif;
 }
 .name_degree h1 {
     margin: 0;
     padding: 0;
     font-size: 0.55cm;
-    font-family: 'Roboto', sans-serif;
+    font-family: "Roboto", sans-serif;
     display: inline;
 }
 .name_degree span {
@@ -79,7 +82,7 @@ td.header {
     margin: 0;
     padding: 0;
     font-size: 0.5cm;
-    font-family: 'Roboto', sans-serif;
+    font-family: "Roboto", sans-serif;
     display: inline;
 }
 .license {
@@ -98,7 +101,7 @@ td.patient {
 }
 .patient {
     padding: 0 0.2cm;
-    font-family: 'Work Sans', sans-serif;
+    font-family: "Work Sans", sans-serif;
 }
 .patient p {
     margin: 0;
@@ -110,18 +113,23 @@ td.patient {
 .patient-details {
     padding: 0.3cm 0 0.1cm 0.4cm;
 }
-td.d-info, td.medicine {
+td.d-info,
+td.medicine {
     height: 20.552cm;
 }
 td.d-info {
     width: 6.25cm;
 }
-div.symp, div.test, .adv {
+div.symp,
+div.test,
+.adv {
     width: 6.1cm;
-    height: 6.55cm;
+    height: 5.15cm;
     padding: 0.15cm;
+    font-family: "Work Sans", sans-serif;
 }
-td.re-visit, td.signature {
+td.re-visit,
+td.signature {
     height: 1.95cm;
 }
 ul {
@@ -133,10 +141,10 @@ ul > li {
     padding-bottom: 0.05cm;
 }
 .d-info {
-    font-family: 'Roboto', sans-serif;
+    font-family: "Roboto", sans-serif;
 }
 .d-info h1 {
-    font-family: 'Proza Libre', sans-serif;
+    font-family: "Proza Libre", sans-serif;
     font-size: 0.4cm;
     margin: 0;
     padding: 0.05cm;
@@ -144,10 +152,10 @@ ul > li {
     text-align: center;
 }
 .med-list {
-    height: 30cm;
+    height: 25cm;
 }
 .item {
-    height: 3cm;
+    height: 2.2cm;
     padding: 0.15cm;
 }
 .name_type {
@@ -158,8 +166,8 @@ ul > li {
     margin: 0;
     padding: 0;
     line-height: 0.4cm;
-    font-family: 'Work Sans', sans-serif;
-    font-size: 0.4cm;
+    font-family: "Work Sans", sans-serif;
+    font-size: 0.43cm;
     border-left: 0.08cm #333 solid;
     padding-left: 0.1cm;
     display: inline;
@@ -167,7 +175,7 @@ ul > li {
 .item p {
     padding: 0;
     margin: 0;
-    font-family: 'Montserrat', sans-serif;
+    font-family: "Montserrat", sans-serif;
     font-size: 0.35cm;
     display: inline;
 }
@@ -180,13 +188,13 @@ ul > li {
     padding-left: 0.18cm;
 }
 .weight_generic p {
-    font-family: 'Work Sans', sans-serif;
+    font-family: "Work Sans", sans-serif;
     padding-left: 0.18cm;
 }
 .how_when {
     margin-top: 0.1cm;
     display: flex;
-    font-family: 'Montserrat', sans-serif;
+    font-family: "Montserrat", sans-serif;
     justify-content: space-between;
 }
 .how_when span {

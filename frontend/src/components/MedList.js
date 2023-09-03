@@ -1,10 +1,10 @@
-import React from "react";
+import React from "react"
 import "../pages/AppointmentPrescription.css"
 
-function MedList({medicines}) {
+function MedList({ medicines }) {
     return (
         <>
-            {medicines.map(med =>(
+            {medicines.map((med) => (
                 <>
                     <div className="item">
                         <div className="name_type">
@@ -16,10 +16,10 @@ function MedList({medicines}) {
                         <div className="how_when">
                             <p>
                                 Take <span>{med.DOSAGE_FREQUENCY}</span> for{" "}
-                                <span>{med.TILL}</span>
+                                <span>{med.DURATION} DAYS</span>
                             </p>
                             <span>{med.TIMING}</span>
-                            <p>(FOR {med.DURATION} DAYS)</p>
+                            <p>(Till: {med.TILL})</p>
                         </div>
                     </div>
                     <div className="devider"></div>
