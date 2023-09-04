@@ -1,16 +1,15 @@
-import React, {useEffect, useState} from "react"
+import React, {useEffect, useMemo, useState} from "react"
 
 
 function DynamicInput({elements, setElement, options}) {
     const [listName, setListName] = useState('')
 
-
-    /*useEffect(() => {
-        if(listName)
+    useMemo(() => {
+        if(options.length !== 0) {
             setListName(Object.keys(options[0])[0])
-    }, [])
+        }
 
-    setListName(Object.keys(options[0])[0])*/
+    }, [options])
 
 
     console.log(listName, 'list')
