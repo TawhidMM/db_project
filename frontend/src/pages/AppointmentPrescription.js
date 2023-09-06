@@ -20,7 +20,7 @@ const AppointmentPrescription = () => {
     const [suggestedTest, setSuggestedTest] = useState(null)
     const [showMedicines, setShowMedicines] = useState(false)
 
-    /*useEffect(() => {
+    useEffect(() => {
         const getPrescription = async () => {
             try {
                 console.log(appointment_id)
@@ -33,6 +33,7 @@ const AppointmentPrescription = () => {
                 setDiagnosed(response.data.diagnosed)
                 setSuggestedTest(response.data.test)
 
+                setShowMedicines(true)
                 console.log(details)
                 console.log(medicines)
                 console.log(diagnosed)
@@ -42,42 +43,42 @@ const AppointmentPrescription = () => {
             }
         }
         getPrescription()
-    }, [])*/
+    }, [])
 
-    const getPrescription2 = async () => {
-        try {
-            console.log(appointment_id)
-            const response = await axios.get(
-                `/patient/history/appointment?appointment_id=${appointment_id}`
-            )
-            setDetails(response.data.details[0])
-            setMedicines(response.data.medicines)
-            setDiagnosed(response.data.diagnosed)
-            setSuggestedTest(response.data.test)
+    // const getPrescription2 = async () => {
+    //     try {
+    //         console.log(appointment_id)
+    //         const response = await axios.get(
+    //             `/patient/history/appointment?appointment_id=${appointment_id}`
+    //         )
+    //         setDetails(response.data.details[0])
+    //         setMedicines(response.data.medicines)
+    //         setDiagnosed(response.data.diagnosed)
+    //         setSuggestedTest(response.data.test)
 
-            console.log(details)
-            console.log(medicines)
-            console.log(diagnosed)
-            console.log(suggestedTest)
-            setShowMedicines(true)
-        } catch (error) {
-            console.error("Error fetching patient information:", error)
-        }
-    }
+    //         console.log(details)
+    //         console.log(medicines)
+    //         console.log(diagnosed)
+    //         console.log(suggestedTest)
+    //         setShowMedicines(true)
+    //     } catch (error) {
+    //         console.error("Error fetching patient information:", error)
+    //     }
+    // }
 
     return (
         <>
             <PatientHeader />
-            <button
+            {/* <button
                 className="btn btn-primary"
                 type="button"
                 onClick={getPrescription2}
             >
                 show prescription
-            </button>
+            </button> */}
             {showMedicines && (
                 <center>
-                    <page classNameName="page" size="A4">
+                    <page className="page" size="A4">
                         <main>
                             <table>
                                 <tbody>
@@ -189,79 +190,82 @@ const AppointmentPrescription = () => {
                                     </tr>
                                 </tbody>
                                 <tbody>
-                                <tr
-                                    style={{
-                                        borderWidth: "1px",
-                                        borderColor: "#aaaaaa",
-                                        borderStyle: "solid",
-                                    }}
-                                >
-                                    <td
-                                        className="d-info"
+                                    <tr
                                         style={{
                                             borderWidth: "1px",
                                             borderColor: "#aaaaaa",
                                             borderStyle: "solid",
                                         }}
                                     >
-                                        <div className="symp">
-                                            <h1>VITAL SIGNS</h1>
-                                            <ul>
-                                                <li>
-                                                    B/P:{" "}
-                                                    {details.BLOOD_PRESSURE}{" "}
-                                                    mmHg
-                                                </li>
-                                                <li>
-                                                    Heart Rate:{" "}
-                                                    {details.HEART_RATE} bpm
-                                                </li>
-                                                <li>
-                                                    Weight: {details.WEIGHT} kg
-                                                </li>
-                                                <li>
-                                                    Height: {details.HEIGHT} cm
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div className="symp">
-                                            <h1>SYMPTOMPS</h1>
-                                            <ul>
-                                                <li>{details.SYMPTOMS}</li>
-                                            </ul>
-                                        </div>
-                                        <div className="symp">
-                                            <h1>DIAGNOSIS</h1>
-                                            <ul>
-                                                <DiagnosedList
-                                                    diseases={diagnosed}
-                                                />
-                                            </ul>
-                                        </div>
-                                        <div className="test">
-                                            <h1>TESTS</h1>
-                                            <ul>
-                                                <TestList
-                                                    test={suggestedTest}
-                                                />
-                                            </ul>
-                                        </div>
-                                        <div className="adv">
-                                            <h1>ADVICE</h1>
-                                            <p>
-                                            </p>
-                                        </div>
-                                    </td>
-                                    <td className="medicine">
-                                        <span style={{ fontSize: "1.7em" }}>
-                                            R<sub>x</sub>
-                                        </span>
+                                        <td
+                                            className="d-info"
+                                            style={{
+                                                borderWidth: "1px",
+                                                borderColor: "#aaaaaa",
+                                                borderStyle: "solid",
+                                            }}
+                                        >
+                                            <div className="symp">
+                                                <h1>VITAL SIGNS</h1>
+                                                <ul>
+                                                    <li>
+                                                        B/P:{" "}
+                                                        {details.BLOOD_PRESSURE}{" "}
+                                                        mmHg
+                                                    </li>
+                                                    <li>
+                                                        Heart Rate:{" "}
+                                                        {details.HEART_RATE} bpm
+                                                    </li>
+                                                    <li>
+                                                        Weight: {details.WEIGHT}{" "}
+                                                        kg
+                                                    </li>
+                                                    <li>
+                                                        Height: {details.HEIGHT}{" "}
+                                                        cm
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div className="symp">
+                                                <h1>SYMPTOMPS</h1>
+                                                <ul>
+                                                    <li>{details.SYMPTOMS}</li>
+                                                </ul>
+                                            </div>
+                                            <div className="symp">
+                                                <h1>DIAGNOSIS</h1>
+                                                <ul>
+                                                    <DiagnosedList
+                                                        diseases={diagnosed}
+                                                    />
+                                                </ul>
+                                            </div>
+                                            <div className="test">
+                                                <h1>TESTS</h1>
+                                                <ul>
+                                                    <TestList
+                                                        test={suggestedTest}
+                                                    />
+                                                </ul>
+                                            </div>
+                                            <div className="adv">
+                                                <h1>ADVICE</h1>
+                                                <p></p>
+                                            </div>
+                                        </td>
+                                        <td className="medicine">
+                                            <span style={{ fontSize: "1.7em" }}>
+                                                R<sub>x</sub>
+                                            </span>
 
-                                        <div className="med-list">
-                                            <MedList medicines={medicines} />
-                                        </div>
-                                    </td>
-                                </tr>
+                                            <div className="med-list">
+                                                <MedList
+                                                    medicines={medicines}
+                                                />
+                                            </div>
+                                        </td>
+                                    </tr>
                                 </tbody>
                                 <tbody>
                                     <tr>

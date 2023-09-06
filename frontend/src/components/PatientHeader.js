@@ -1,16 +1,16 @@
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import axios from "axios"
+import { useNavigate } from "react-router-dom"
 
 const Home = () => {
-    const navigate = useNavigate();
+    const navigate = useNavigate()
     const handleLogout = async () => {
         try {
-            await axios.post("/patient/logout");
-            navigate("/patient/login");
+            await axios.post("/patient/logout")
+            navigate("/patient/login")
         } catch (error) {
-            console.error("Error logging out:", error);
+            console.error("Error logging out:", error)
         }
-    };
+    }
 
     return (
         <nav className="navbar navbar-expand-lg bg-body-tertiary">
@@ -55,6 +55,11 @@ const Home = () => {
                             </a>
                         </li>
                         <li className="nav-item">
+                            <a className="nav-link" href="/patient/find">
+                                Find
+                            </a>
+                        </li>
+                        <li className="nav-item">
                             <a
                                 className="nav-link"
                                 onClick={handleLogout}
@@ -73,7 +78,7 @@ const Home = () => {
                 </div>
             </div>
         </nav>
-    );
-};
+    )
+}
 
-export default Home;
+export default Home
