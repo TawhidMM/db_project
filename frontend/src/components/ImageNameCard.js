@@ -1,8 +1,8 @@
-import PropTypes from "prop-types";
-import React from "react";
+import PropTypes from "prop-types"
+import React from "react"
 
 function ImageNameCard({ person }) {
-    const { FULLNAME: name, PHOTO_URL: imageUrl } = person;
+    const { NAME: name, PHOTO_URL: imageUrl } = person
 
     return (
         <div className="card mb-4">
@@ -16,11 +16,11 @@ function ImageNameCard({ person }) {
                 <div className="d-flex justify-content-center mb-2" />
             </div>
         </div>
-    );
+    )
 }
 
 ImageNameCard.prototype = {
     person: PropTypes.object.isRequired,
-};
+}
 
-export default ImageNameCard;
+export default ImageNameCard
