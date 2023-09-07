@@ -1,18 +1,19 @@
-import React from "react";
+import React, {useEffect} from "react";
 import PropTypes from "prop-types";
 import InputField from "./InputField";
 
 function MedicineInput({medicines, setMedicines, options}) {
 
     const handleChange = (e, index) => {
-        const { name, value } = e.target;
-        const updatedMedicines = [...medicines];
-        updatedMedicines[index][name] = value;
-        setMedicines(updatedMedicines);
+        const { name, value } = e.target
+        const updatedMedicines = [...medicines]
+
+        updatedMedicines[index][name] = value
+        setMedicines(updatedMedicines)
     }
 
     const handleAddMedicine = () => {
-        setMedicines([...medicines, { name: '', dose: '', frequency: '' }]);
+        setMedicines([...medicines, { name: '', dose: '', frequency: '', duration: '', timing: '' }])
     }
 
     return(
@@ -79,14 +80,18 @@ function MedicineInput({medicines, setMedicines, options}) {
                     </div>
 
                     <div className="col-sm-2">
-                        <select className="form-select " aria-label="Default select example">
+                        <select className="form-select " aria-label="Default select example"
+                                name="timing"
+                                onChange={(e) => handleChange(e, index)}
+                        >
+                            <option value="set timing" selected hidden disabled>set timing</option>
                             <option value="before meal">before meal</option>
                             <option value="after meal">after meal</option>
                         </select>
                     </div>
                 </div>
             ))}
-            <button type="button" className="btn btn-outline-infoRouter" onClick={handleAddMedicine}>
+            <button type="button" className="btn btn-outline-info" onClick={handleAddMedicine}>
                 Add Medicine
             </button>
 

@@ -1,4 +1,5 @@
-const express = require("express");
+const express = require("express")
+const util = require("../Utils/VerifyToken");
 
 const ptRouter = express.Router();
 const ptController = require("../Controller/PatientControllers/patientController");
@@ -7,7 +8,10 @@ const signupController = require("../Controller/PatientControllers/PatientSignup
 const editProfileController = require("../Controller/PatientControllers/ProfileEditController");
 const confirmUpdate = require("../Controller/PatientControllers/ConfirmProfileUpadteControoller");
 const getMyDoctors = require("../Controller/PatientControllers/FindMyDoctorsController");
-const util = require("../Utils/VerifyToken");
+const testResult = require('../Controller/PatientControllers/TestResultController')
+
+
+
 
 ptRouter.route("/login").post(loginController);
 
@@ -28,12 +32,20 @@ ptRouter
 ptRouter.route("/logout").post(util.verifyToken, ptController.logOut);
 
 ptRouter.route("/medicine").get(util.verifyToken, ptController.getMedicine);
+
 ptRouter
     .route("/history/appointmentList")
     .get(util.verifyToken, ptController.getAppointmentList);
+
 ptRouter
     .route("/history/appointment")
     .get(util.verifyToken, ptController.getAppointmentPrecription);
+
+ptRouter.route('/history/test-result').get(util.verifyToken, testResult)
+
 ptRouter.route("/logout").post(util.verifyToken, ptController.logOut);
+
+
+
 
 module.exports = ptRouter;

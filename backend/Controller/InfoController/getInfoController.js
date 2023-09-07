@@ -42,5 +42,21 @@ async function allTests(req, res) {
     }
 }
 
-module.exports = {allMedicines, allDiseases, allTests}
+async function allMedCenters(req, res) {
+    const query = 'SELECT CENTER_NAME NAME FROM MEDICAL_CENTER ORDER BY NAME'
+
+    try {
+        const response = await executeQuery(query)
+
+        res.status(200).send(response)
+    } catch (error) {
+        console.log('error fetching med centers')
+        console.log(error)
+    }
+}
+
+
+
+
+module.exports = {allMedicines, allDiseases, allTests, allMedCenters}
 
