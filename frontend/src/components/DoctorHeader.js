@@ -49,11 +49,11 @@ const Home = () => {
                                 Profile
                             </a>
                         </li>
-                        {/* <li className="nav-item">
-                            <a className="nav-link" href="/patient/history">
-                                History
+                        <li className="nav-item">
+                            <a className="nav-link" href="/doctor/upcoming">
+                                Upcoming Apppointments
                             </a>
-                        </li> */}
+                        </li>
                         <li className="nav-item">
                             <a
                                 className="nav-link"

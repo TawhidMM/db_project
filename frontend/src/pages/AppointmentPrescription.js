@@ -78,6 +78,7 @@ const AppointmentPrescription = () => {
             </button> */}
             {showMedicines && (
                 <center>
+                    <br />
                     <page className="page" size="A4">
                         <main>
                             <table>

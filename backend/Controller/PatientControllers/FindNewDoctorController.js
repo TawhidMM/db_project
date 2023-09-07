@@ -1,69 +1,50 @@
 const db = require("../../orclConnection")
 require("jsonwebtoken")
 
-// async function getDoctors(req, res) {
-//     const patientId = req.access_id
+async function getDoctors(req, res) {
+    const patientId = req.access_id
+    const speciality = req.query.speciality
+    const location = req.query.city
 
-//     const query = `SELECT (D.FIRST_NAME || ' ' || D.LAST_NAME) NAME,
-//                     M.CENTER_NAME MED_CENTER,
-//                     (A.STREET_ADDRESS || ', ' || A.CITY || ', ' || A.SUB_DISTRICT || ', ' ||A.DISTRICT || '-' || A.POSTAL_CODE) ADDRESS
-//                     FROM DOCTOR D JOIN DOCTOR_AVAILABILITY DA
-//                     ON D.DOCTOR_ID = DA.DOCTOR_ID JOIN
-//                     MEDICAL_CENTER M ON DA.CENTER_ID =M.MED_CENTER_ID
-//                     JOIN ADDRESS A ON A.ADDRESS_ID = M.ADDRESS_ID
-//                     WHERE LOWER( D.SPECIALIZATION )= LOWER('${specialist}')
-//                     AND LOWER( A.SUB_DISTRICT) = LOWER('${location}')`
+    const query = `SELECT DISTINCT (D.FIRST_NAME || ' ' || D.LAST_NAME) NAME, M.CENTER_NAME MED_CENTER,
+                    (A.STREET_ADDRESS || ', ' || A.CITY || ', ' || A.SUB_DISTRICT || ', ' ||A.DISTRICT || '-' || A.POSTAL_CODE) ADDRESS,
+                    AVAILABLE_DAYS(D.DOCTOR_ID, M.MED_CENTER_ID) AVAILABLE_DAYS
 
-//     try {
-//         const data = await db.executeQuery(query)
+                    FROM DOCTOR D JOIN DOCTOR_AVAILABILITY DA ON D.DOCTOR_ID = DA.DOCTOR_ID JOIN
+                    MEDICAL_CENTER M ON DA.CENTER_ID =M.MED_CENTER_ID JOIN 
+                    ADDRESS A ON A.ADDRESS_ID = M.ADDRESS_ID
 
-//         return res.status(200).send(data)
-//     } catch (error) {
-//         console.log("error in get my doctors")
+                    WHERE LOWER( D.SPECIALIZATION ) LIKE LOWER('%${speciality}%')
+                    AND LOWER( A.CITY) LIKE LOWER('%${location}%')
+                    ORDER BY NAME ASC`
 
-//         console.log(error)
-//     }
-// }
+    try {
+        const data = await db.executeQuery(query)
 
-// server.get("/find-doctor", async (req, res) => {
-//     const allSpeciality = await connection.executeQuery(
-//         "SELECT DISTINCT SPECIALIZATION SPECIALIST FROM DOCTOR"
-//     )
+        return res.status(200).send(data)
+    } catch (error) {
+        console.log("error in get my doctors")
 
-//     const allSubDistrict = await connection.executeQuery(
-//         "SELECT DISTINCT SUB_DISTRICT FROM ADDRESS"
-//     )
+        console.log(error)
+    }
+}
 
-//     res.render("find_doc.ejs", {
-//         allSpeciality: allSpeciality,
-//         allSubDistrict: allSubDistrict,
-//     })
-// })
+async function getOptions(req, res) {
+    console.log("in get options")
+    try {
+        const allSpeciality = await db.executeQuery(
+            "SELECT DISTINCT SPECIALIZATION SPECIALIST FROM DOCTOR"
+        )
 
-// server.get("/find-doctor/:specialist&:location", async (req, res) => {
-//     const { specialist, location } = req.params
+        const allCity = await db.executeQuery(
+            "SELECT DISTINCT CITY FROM ADDRESS ORDER BY CITY ASC"
+        )
+        return res.status(200).send({ allSpeciality, allCity })
+    } catch (error) {
+        console.log("error in get my doctors")
 
-//     const query = `SELECT (D.FIRST_NAME || ' ' || D.LAST_NAME) NAME,
-//                                   M.CENTER_NAME MED_CENTER,
-//                                   (A.STREET_ADDRESS || ', ' || A.CITY || ', ' || A.SUB_DISTRICT || ', ' ||
-//                                         A.DISTRICT || '-' || A.POSTAL_CODE) ADDRESS
-//                         FROM DOCTOR D JOIN DOCTOR_AVAILABILITY DA
-//                         ON D.DOCTOR_ID = DA.DOCTOR_ID JOIN
-//                         MEDICAL_CENTER M ON DA.CENTER_ID =M.MED_CENTER_ID
-//                         JOIN ADDRESS A ON A.ADDRESS_ID = M.ADDRESS_ID
-//                         WHERE LOWER( D.SPECIALIZATION )= LOWER('${specialist}')
-//                         AND LOWER( A.SUB_DISTRICT) = LOWER('${location}')`
+        console.log(error)
+    }
+}
 
-//     try {
-//         const data = await connection.executeQuery(query)
-
-//         console.log(specialist + " " + location)
-
-//         res.send(data)
-//     } catch (error) {
-//         console.log("error in /find-doctor/:specialist&:location")
-//         console.log(error)
-//     }
-// })
-
-module.exports = {}
+module.exports = { getDoctors, getOptions }

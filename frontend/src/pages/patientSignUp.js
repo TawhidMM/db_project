@@ -1,62 +1,65 @@
-import { useState } from "react";
+import { useState } from "react"
 
-import InputField from "../components/InputField";
-import Select from "../components/Select";
-import PasswordInput from "../components/PasswordInput";
+import InputField from "../components/InputField"
+import Select from "../components/Select"
+import PasswordInput from "../components/PasswordInput"
 
-import patientInitialValues from "../data/PatientInitialVals";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import patientInitialValues from "../data/PatientInitialVals"
+import { useNavigate } from "react-router-dom"
+import axios from "axios"
 
 function PatientSignUp() {
     const form = useState(patientInitialValues)
     const [formInput, setFormInput] = form
     const [passwordMatch, setPasswordMatch] = useState(true)
     const [signUpFailed, setSignUpFailed] = useState(false)
-    const [signUpAlertMsg, setSignUpAlertMsg] = useState('')
+    const [signUpAlertMsg, setSignUpAlertMsg] = useState("")
     const navigate = useNavigate()
 
-    const genders = ["Gender", "Female", "Male"];
-    const bloodGroups = ["Blood Group", "A+", "A-", "B+", "B-", "AB+",
-        "AB-", "O+", "O-",]
+    const genders = ["Gender", "Female", "Male"]
+    const bloodGroups = [
+        "Blood Group",
+        "A+",
+        "A-",
+        "B+",
+        "B-",
+        "AB+",
+        "AB-",
+        "O+",
+        "O-",
+    ]
 
     const handleSignInClick = async () => {
-
-        const {password, confirmPassword} = formInput
+        const { password, confirmPassword } = formInput
         setSignUpFailed(false)
 
         console.log(formInput)
 
-        if(password !== confirmPassword) {
+        if (password !== confirmPassword) {
             setPasswordMatch(false)
 
             return
         }
 
-
-        try{
+        try {
             const response = await axios.post("/patient/s", formInput)
             console.log(response.data)
-
-        } catch (error){
-
-            if(error.response.status === 436) {
-                const {message} = error.response.data
+        } catch (error) {
+            if (error.response.status === 436) {
+                const { message } = error.response.data
                 console.log(message)
                 console.log(error.response.data)
                 setSignUpFailed(true)
                 setSignUpAlertMsg(message)
-            }
-            else {
-                console.log('signup failed')
+            } else {
+                console.log("signup failed")
                 console.log(error)
             }
-
         }
     }
 
     const handleLoginClick = () => {
-        navigate(`../login`);
+        navigate(`../patient/login`)
     }
 
     return (
@@ -120,18 +123,19 @@ function PatientSignUp() {
                     />
                 </div>
                 <div className="col">
-                    <input type="text" className="form-control"
-                           placeholder="Date of Birth" id="DOB"
-                           onFocus={event=>
-                               event.target.type = "date"}
-                           onBlur={event=>
-                               event.target.type = "text"}
-                           onChange={event=>{
-                               setFormInput({
-                                   ...formInput,
-                                   ['dob']: event.target.value
-                               })
-                           }}
+                    <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Date of Birth"
+                        id="DOB"
+                        onFocus={(event) => (event.target.type = "date")}
+                        onBlur={(event) => (event.target.type = "text")}
+                        onChange={(event) => {
+                            setFormInput({
+                                ...formInput,
+                                ["dob"]: event.target.value,
+                            })
+                        }}
                     />
                 </div>
             </div>
@@ -206,11 +210,11 @@ function PatientSignUp() {
                     please enter the same password
                 </div>
             )}
-                {signUpFailed &&
-                    <div className="alert alert-danger mx-auto col-3" role="alert">
-                        {signUpAlertMsg}
-                    </div>
-                }
+            {signUpFailed && (
+                <div className="alert alert-danger mx-auto col-3" role="alert">
+                    {signUpAlertMsg}
+                </div>
+            )}
             <div className="d-grid gap-2 col-2 mx-auto mt-3">
                 <button
                     type="button"
@@ -231,4 +235,4 @@ function PatientSignUp() {
     )
 }
 
-export default PatientSignUp;
+export default PatientSignUp

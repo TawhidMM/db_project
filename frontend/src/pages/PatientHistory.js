@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React, { useState, useEffect } from "react"
+import axios from "axios"
 
-import PatientHeader from "../components/PatientHeader";
-import TableHeaders from "../components/TableHeaders";
-import removeKey from "../util/RemoveKey";
+import PatientHeader from "../components/PatientHeader"
+import TableHeaders from "../components/TableHeaders"
+import removeKey from "../util/RemoveKey"
 
 const PatientHistory = () => {
-
     const [appointments, setAppointments] = useState([])
     const [showAppointments, setShowAppointments] = useState(false)
     const [appointmentLinks, setAppointmentLinks] = useState([])
@@ -15,18 +14,19 @@ const PatientHistory = () => {
     const [pastMedicines, setPastMedicines] = useState([])
     const [showMedicines, setShowMedicines] = useState(false)
     const [doctorList, setDoctorList] = useState([])
-    const [selectedDoc, setSelectedDoc] = useState('')
+    const [selectedDoc, setSelectedDoc] = useState("")
     const [selectedMonth, setSelectedMonth] = useState(0)
-    const[medLinks, setMedLinks] = useState(
-        {runningMedLinks:[], pastMedLinks:[]})
-
+    const [medLinks, setMedLinks] = useState({
+        runningMedLinks: [],
+        pastMedLinks: [],
+    })
 
     const toBeRemovedKey = ["MED_URL"]
 
     const handleGetMedClick = async () => {
         await getMyDocs()
         await getMedicines()
-    };
+    }
 
     const handleDoctorFilter = (event) => {
         setSelectedDoc(event.target.value)
@@ -38,74 +38,68 @@ const PatientHistory = () => {
 
     useEffect(() => {
         if (selectedDoc || selectedMonth) {
-            (async () => {
+            ;(async () => {
                 console.log(selectedDoc + "selected doctor")
                 await getMedicines()
             })()
         }
     }, [selectedDoc, selectedMonth])
 
-
     const getMedicines = async () => {
-
-    try {
-        const response = await axios.get(
-            `/patient/medicine/?month=${selectedMonth}&doctor=${selectedDoc}`)
-
-        setRunningMedicines(response.data.running)
-        setPastMedicines(response.data.past)
-
-        setMedLinks({
-            ...medLinks,
-            ['pastMedLinks']: response.data.past.map(med => med.MED_URL),
-            ['runningMedLinks']: response.data.running.map(med => med.MED_URL)
-        })
-
-
-        setShowAppointments(false)
-        setShowMedicines(true)
-    } catch (error) {
-
-        console.error("Error fetching runningMedicines:", error)
-    }
-}
-
-
-    const getMyDocs = async () => {
-    try {
-
-        const response = await axios.get("/patient/my-doctors")
-        setDoctorList(response.data)
-
-        console.log(response.data)
-    } catch (error) {
-        console.error("Error fetching my doctors", error)
-    }
-}
-
-
-    const getAppointments = async () => {
-
         try {
             const response = await axios.get(
-                "/patient/history/appointmentList"
-            );
+                `/patient/medicine/?month=${selectedMonth}&doctor=${selectedDoc}`
+            )
+
+            setRunningMedicines(response.data.running)
+            setPastMedicines(response.data.past)
+
+            setMedLinks({
+                ...medLinks,
+                ["pastMedLinks"]: response.data.past.map((med) => med.MED_URL),
+                ["runningMedLinks"]: response.data.running.map(
+                    (med) => med.MED_URL
+                ),
+            })
+
+            setShowAppointments(false)
+            setShowMedicines(true)
+        } catch (error) {
+            console.error("Error fetching runningMedicines:", error)
+        }
+    }
+
+    const getMyDocs = async () => {
+        try {
+            const response = await axios.get("/patient/my-doctors")
+            setDoctorList(response.data)
+
+            console.log(response.data)
+        } catch (error) {
+            console.error("Error fetching my doctors", error)
+        }
+    }
+
+    const getAppointments = async () => {
+        try {
+            const response = await axios.get("/patient/history/appointmentList")
 
             setAppointments(response.data)
             console.log(response.data)
 
-            setAppointmentLinks(response.data.map(a=>
-                `http://localhost:3000/patient/history/appointment/?appointment_id=${a.APPOINTMENT_ID}`)
+            setAppointmentLinks(
+                response.data.map(
+                    (a) =>
+                        `http://localhost:3000/patient/history/appointment/?appointment_id=${a.APPOINTMENT_ID}`
+                )
             )
-
 
             setShowMedicines(false)
             setShowAppointments(true)
-
         } catch (error) {
             console.error("Error fetching medicines:", error)
         }
-    };
+    }
 
     return (
         <>
@@ -130,22 +124,24 @@ const PatientHistory = () => {
                     </button>
                     {showMedicines && (
                         <>
+                            {" "}
+                            <br />
+                            <label>Prescribed by: </label>
                             <select
                                 className="form-select"
                                 aria-label="Default select example"
                                 onChange={handleDoctorFilter}
                             >
-                                <option value=''>All</option>
+                                <option value="">All</option>
                                 {doctorList.map(({ DOCTOR_NAME }) => (
                                     <option
                                         key={DOCTOR_NAME}
                                         value={DOCTOR_NAME}
                                     >
-                                        {DOCTOR_NAME}
+                                        Dr. {DOCTOR_NAME}
                                     </option>
                                 ))}
                             </select>
-
                             <label>Since: </label>
                             <select
                                 value={selectedMonth}
@@ -166,9 +162,13 @@ const PatientHistory = () => {
                             <div>
                                 <h2>Used Medicines</h2>
                                 <TableHeaders
-                                    highlightedInfo={/*removeKey(*/runningMedicines/*,toBeRemovedKey)*/}
+                                    highlightedInfo={
+                                        /*removeKey(*/ runningMedicines /*,toBeRemovedKey)*/
+                                    }
                                     highlightedLinks={medLinks.runningMedLinks}
-                                    info={/*removeKey(*/pastMedicines/*,toBeRemovedKey)*/}
+                                    info={
+                                        /*removeKey(*/ pastMedicines /*,toBeRemovedKey)*/
+                                    }
                                     links={medLinks.pastMedLinks}
                                 />
                             </div>
@@ -190,5 +190,4 @@ const PatientHistory = () => {
     )
 }
 
-export default PatientHistory;
-
+export default PatientHistory
