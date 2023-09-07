@@ -3,51 +3,51 @@ import axios from "axios"
 import { useNavigate } from "react-router-dom"
 
 import ImageNameCard from "../components/ImageNameCard"
-import PatientHeader from "../components/PatientHeader"
+import HospitalHeader from "../components/HospitalHeader"
 import DetailsCard from "../components/DetailsCard"
 import TableHeaders from "../components/TableHeaders"
 
 import removeKey from "../util/RemoveKey"
 
-const PatientDashboard = () => {
-    const [patient, setPatient] = useState(null)
+const HospitalDashboard = () => {
+    const [hospital, setHospital] = useState(null)
     const navigate = useNavigate()
 
     // keys will be removed for Details Card
     const toBeRemovedKey = ["PHOTO_URL"]
 
     useEffect(() => {
-        const getPatient = async () => {
+        const getHospital = async () => {
             try {
-                const response = await axios.get("/patient/dashboard") // Replace with patient API endpoint
-                setPatient(response.data[0])
+                const response = await axios.get("/hospital/dashboard") // Replace with Hospital API endpoint
+                setHospital(response.data[0])
             } catch (error) {
-                console.error("Error fetching patient information:", error)
+                console.error("Error fetching Hospital information:", error)
             }
         }
 
         ;(async () => {
-            await getPatient()
+            await getHospital()
         })()
     }, [])
 
     return (
         <>
             <div>
-                <PatientHeader />
+                <HospitalHeader />
                 <center>
-                    <h1>Patient Dashboard</h1>
-                    {patient ? (
+                    <h1>Hospital Dashboard</h1>
+                    {hospital ? (
                         <div className="container py-5">
                             <div className="row">
                                 <div className="col-lg-4">
-                                    <ImageNameCard person={patient} />
+                                    <ImageNameCard person={hospital} />
                                 </div>
                                 <div className="col-lg-8">
                                     <DetailsCard
                                         person={
                                             removeKey(
-                                                [patient],
+                                                [hospital],
                                                 toBeRemovedKey
                                             )[0]
                                         }
@@ -58,7 +58,7 @@ const PatientDashboard = () => {
                                 className="btn btn-primary"
                                 type="button"
                                 onClick={(event) =>
-                                    navigate("../patient/edit-profile")
+                                    navigate("../hospital/edit-profile")
                                 }
                             >
                                 Edit Profile
@@ -73,4 +73,4 @@ const PatientDashboard = () => {
     )
 }
 
-export default PatientDashboard
+export default HospitalDashboard

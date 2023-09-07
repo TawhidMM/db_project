@@ -6,7 +6,7 @@ async function getDetails(req, res) {
 
     const patientId = req.access_id
 
-    const query = `SELECT FIRST_NAME ||' '||LAST_NAME FULLNAME, EMAIL, GENDER, TO_CHAR(DOB, 'DD MONTH YYYY') DOB, BLOOD_GROUP, PHOTO_URL ,
+    const query = `SELECT FIRST_NAME ||' '||LAST_NAME NAME, EMAIL, GENDER, TO_CHAR(DOB, 'DD MONTH YYYY') DOB, BLOOD_GROUP, PHOTO_URL ,
                         (SELECT STREET_ADDRESS||' '||CITY||', '||SUB_DISTRICT||', '||DISTRICT||', '||POSTAL_CODE 
                         FROM PATIENT pt LEFT JOIN ADDRESS ad ON (pt.ADDRESS_ID=ad.ADDRESS_ID)
                         WHERE pt.PATIENT_ID='${patientId}') ADDRESS
@@ -89,7 +89,7 @@ async function getAppointmentList(req, res) {
                     FROM PAST_APPOINTMENT pa JOIN DOCTOR d ON (pa.DOCTOR_ID=d.DOCTOR_ID)
                         JOIN MEDICAL_CENTER m ON (pa.MED_CENTER_ID= m.MED_CENTER_ID)
                     WHERE pa.PATIENT_ID='${patientId}'
-                    ORDER BY pa.APPOINTMENT_DATE ASC`
+                    ORDER BY pa.APPOINTMENT_DATE DESC`
 
     try {
         const data = await db.executeQuery(query)

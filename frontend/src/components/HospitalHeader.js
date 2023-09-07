@@ -5,8 +5,8 @@ const Home = () => {
     const navigate = useNavigate()
     const handleLogout = async () => {
         try {
-            await axios.post("/patient/logout")
-            navigate("/patient/login")
+            await axios.post("/hospital/logout")
+            navigate("/hospital/login")
         } catch (error) {
             console.error("Error logging out:", error)
         }
@@ -44,26 +44,21 @@ const Home = () => {
                             <a
                                 className="nav-link active"
                                 aria-current="page"
-                                href="/patient/dashboard"
+                                href="/hospital/dashboard"
                             >
                                 Profile
                             </a>
                         </li>
-                        <li className="nav-item">
+                        {/* <li className="nav-item">
                             <a className="nav-link" href="/patient/history">
                                 History
                             </a>
-                        </li>
-                        <li className="nav-item">
-                            <a className="nav-link" href="/patient/find">
-                                Find
-                            </a>
-                        </li>
+                        </li> */}
                         <li className="nav-item">
                             <a
                                 className="nav-link"
                                 onClick={handleLogout}
-                                href="/patient/login"
+                                href="/hospital/login"
                             >
                                 Log out
                             </a>
