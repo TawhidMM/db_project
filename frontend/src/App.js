@@ -22,6 +22,8 @@ import PatientHistory from "./pages/PatientHistory"
 import EditPatientProfile from "./pages/EditPatientProfile"
 import AddPrescription from "./pages/AddPrescription"
 import LiveSearch from "./components/LiveSearch"
+import TestResult from "./pages/TestResult";
+import AddTestResult from "./pages/AddTestResult";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -34,17 +36,16 @@ const router = createBrowserRouter(
                 path={"/patient/history/Appointment"}
                 element={<AppointmentPrescription />}
             />
+            <Route
+                path={"/patient/history/test-result"}
+                element={<TestResult />}
+            />
             <Route path={"/patient/signup"} element={<PatientSignUp />} />
             <Route
                 path={"/patient/edit-profile"}
                 element={<EditPatientProfile />}
             />
             <Route path={"/add-med"} element={<AddPrescription />} />
-            <Route
-                path={"/demo"}
-                element={<LiveSearch options={["a", "b", "c"]} />}
-            />
-
             <Route path="/doctor/login" element={<Login user="doctor" />} />
             <Route path={"/doctor/dashboard"} element={<DoctorDashboard />} />
 
@@ -53,6 +54,7 @@ const router = createBrowserRouter(
                 path={"/hospital/dashboard"}
                 element={<HospitalDashboard />}
             />
+            <Route path={"/hospital/add-test-result"} element={<AddTestResult />}/>
         </Route>
     )
 )

@@ -7,12 +7,13 @@ import axios from "axios";
 export default function TestResult(){
     const [searchParams, setSearchParams] = useSearchParams()
     const [testResult, setTestResult] = useState([{}])
+    const [testDate, setTestDate] = useState('')
+    const [medicalCenter, setMedicalCenter] = useState('')
 
     const appointmentId = searchParams.get('appointment_id')
     const testName = searchParams.get('test_name')
 
     const toBeTrimmed= ['TEST_DATE', 'CENTER_NAME']
-    let testDate, medicalCenter
 
     useEffect(() => {
         (async () => {
@@ -24,8 +25,9 @@ export default function TestResult(){
                     `/patient/history/test-result/?appointment_id=${encodedAppId}&test_name=${encodedTestName}`)
                 setTestResult(response.data)
 
-                testDate = response.data[0].TEST_DATE
-                medicalCenter = response.data[0].CENTER_NAME
+                console.log(response.data, 'RESPONSE.DATA')
+                setTestDate(response.data[0].TEST_DATE)
+                setMedicalCenter(response.data[0].CENTER_NAME)
 
             } catch (error) {
                 console.log('error getting test result')
@@ -37,7 +39,12 @@ export default function TestResult(){
 
     return (
         <>
-            <TableHeaders info={removeKey(testResult,toBeTrimmed)}
+            <div className="row mt-4 mb-2">
+                <p>Test Name : {testName}</p>
+                <p>Performed date : {testDate}</p>
+                <p>Performed on : {medicalCenter}</p>
+            </div>
+            <TableHeaders info={removeKey(testResult, toBeTrimmed)}
                           links={[]}
                           highlightedInfo={[]}
             />

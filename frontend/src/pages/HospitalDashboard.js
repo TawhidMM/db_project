@@ -58,10 +58,10 @@ const HospitalDashboard = () => {
                                 className="btn btn-primary"
                                 type="button"
                                 onClick={(event) =>
-                                    navigate("../hospital/edit-profile")
+                                    navigate("../hospital/add-test-result")
                                 }
                             >
-                                Edit Profile
+                                Add Test Result
                             </button>
                         </div>
                     ) : (

@@ -43,7 +43,7 @@ ptRouter
 
 ptRouter.route('/history/test-result').get(util.verifyToken, testResult)
 
-ptRouter.route("/logout").post(util.verifyToken, ptController.logOut);
+ptRouter.route("/logout").post(util.verifyToken, ptController.logOut)
 
 
 

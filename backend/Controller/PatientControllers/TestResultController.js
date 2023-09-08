@@ -4,8 +4,10 @@ async function getTestResult(req, res) {
     const appointmentId = req.query.appointment_id
     const testName = req.query.test_name
 
-    const query = `SELECT TR.TEST_DATE, MC.CENTER_NAME, TRV.PARAMETER_NAME,
-                               TRV.RESULT_VALUE, ATP.MALE_RANGE, ATP.FEMALE_RANGE,
+    const query = `SELECT TO_CHAR(TR.TEST_DATE, 'DD MONTH YYYY') "TEST_DATE", 
+                               MC.CENTER_NAME, TRV.PARAMETER_NAME,
+                               TRV.RESULT_VALUE, ATP.UNIT, ATP.MALE_RANGE, 
+                               ATP.FEMALE_RANGE,
                                ATP.CHILD_RANGE, TRV.REMARKS
                         FROM SUGGESTED_TESTS ST JOIN MEDICAL_TEST MT
                         ON MT.TEST_ID = ST.TEST_ID JOIN TEST_RESULT TR
@@ -18,6 +20,7 @@ async function getTestResult(req, res) {
     try {
         const data = await executeQuery(query)
 
+        console.log(data)
         res.status(200).json(data)
     } catch (error) {
         console.error(error)
