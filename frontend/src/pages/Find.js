@@ -62,6 +62,7 @@ const Find = () => {
                 <PatientHeader />
             </div>
             <center>
+                <h2>Find your Doctor</h2>
                 <div className="row">
                     <div className="col-sm-4 mt-5">
                         <input

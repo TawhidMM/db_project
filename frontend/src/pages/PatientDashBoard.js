@@ -5,12 +5,16 @@ import { useNavigate } from "react-router-dom"
 import ImageNameCard from "../components/ImageNameCard"
 import PatientHeader from "../components/PatientHeader"
 import DetailsCard from "../components/DetailsCard"
+import HeightChart from "../components/HeightChart"
 import TableHeaders from "../components/TableHeaders"
 
 import removeKey from "../util/RemoveKey"
 
 const PatientDashboard = () => {
     const [patient, setPatient] = useState(null)
+    const [height, setHeight] = useState([])
+    const [weight, setWeight] = useState([])
+
     const navigate = useNavigate()
 
     // keys will be removed for Details Card
@@ -20,7 +24,8 @@ const PatientDashboard = () => {
         const getPatient = async () => {
             try {
                 const response = await axios.get("/patient/dashboard") // Replace with patient API endpoint
-                setPatient(response.data[0])
+                setPatient(response.data.data[0])
+                setHeight(response.data.data2)
             } catch (error) {
                 console.error("Error fetching patient information:", error)
             }
@@ -29,6 +34,8 @@ const PatientDashboard = () => {
         ;(async () => {
             await getPatient()
         })()
+        // getPatient()
+        console.log(height)
     }, [])
 
     return (
@@ -63,6 +70,11 @@ const PatientDashboard = () => {
                             >
                                 Edit Profile
                             </button>
+                            <br />
+                            <br />
+                            <div className="App">
+                                <HeightChart data={height} />
+                            </div>
                         </div>
                     ) : (
                         <p>No data</p>

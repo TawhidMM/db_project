@@ -7,21 +7,26 @@ async function getDetails(req, res) {
     const patientId = req.access_id
 
     const query = `SELECT FIRST_NAME ||' '||LAST_NAME NAME, EMAIL, GENDER, TO_CHAR(DOB, 'DD MONTH YYYY') DOB, BLOOD_GROUP, PHOTO_URL ,
-                        (SELECT STREET_ADDRESS||' '||CITY||', '||SUB_DISTRICT||', '||DISTRICT||', '||POSTAL_CODE 
-                        FROM PATIENT pt LEFT JOIN ADDRESS ad ON (pt.ADDRESS_ID=ad.ADDRESS_ID)
-                        WHERE pt.PATIENT_ID='${patientId}') ADDRESS
-                        FROM PATIENT
-                        WHERE PATIENT_ID = '${patientId}'`
+                    STREET_ADDRESS||' '||CITY||', '||SUB_DISTRICT||', '||DISTRICT||', '||POSTAL_CODE ADDRESS
+
+                    FROM PATIENT pt LEFT JOIN ADDRESS ad ON (pt.ADDRESS_ID=ad.ADDRESS_ID)
+                    WHERE PATIENT_ID = '${patientId}'`
+
+    const query2 = `SELECT HEIGHT, TO_CHAR(APPOINTMENT_DATE ,'DD-Mon-YYYY') dateon
+                    FROM PAST_APPOINTMENT 
+                    WHERE PATIENT_ID= '${patientId}'
+                    ORDER BY APPOINTMENT_DATE ASC`
 
     try {
         const data = await db.executeQuery(query)
+        const data2 = await db.executeQuery(query2)
 
         if (data.length === 0)
             return res
                 .status(400)
                 .json({ success: false, message: "not found" })
 
-        return res.status(200).send(data)
+        return res.status(200).send({ data, data2 })
     } catch (error) {
         console.log("error in get details")
 
