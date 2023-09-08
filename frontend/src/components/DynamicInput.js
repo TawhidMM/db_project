@@ -12,12 +12,10 @@ function DynamicInput({elements, setElement, options}) {
     }, [options])
 
 
-    console.log(listName, 'list')
-    console.log(options, 'options')
-
     const handleChange = (e, index) => {
         const {value} = e.target
         const updatedElements = [...elements]
+
         updatedElements[index] = value
         setElement(updatedElements)
     }
@@ -31,7 +29,7 @@ function DynamicInput({elements, setElement, options}) {
         <>
             {elements.map((medicine, index) => (
                 <div key={index} className="row mb-1" >
-                    <div className="col-sm-4">
+                    <div className="col-sm-6">
                         <input className="form-control" list={listName}
                                onChange={(e) =>
                                    handleChange(e, index)}

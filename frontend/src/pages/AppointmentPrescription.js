@@ -27,7 +27,7 @@ const AppointmentPrescription = () => {
                 const response = await axios.get(
                     `/patient/history/appointment?appointment_id=${appointment_id}`
                 )
-                //console.log(response.data);
+
                 setDetails(response.data.details[0])
                 setMedicines(response.data.medicines)
                 setDiagnosed(response.data.diagnosed)
@@ -247,6 +247,7 @@ const AppointmentPrescription = () => {
                                                 <ul>
                                                     <TestList
                                                         test={suggestedTest}
+                                                        appointmentId={appointment_id}
                                                     />
                                                 </ul>
                                             </div>

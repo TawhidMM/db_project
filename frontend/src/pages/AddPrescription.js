@@ -9,10 +9,11 @@ function MedicineForm() {
     const [diseases, setDiseases] = useState([''])
     const [tests, setTests] = useState([''])
     const [condition, setCondition] = useState(
-        {bloodPressure: '', heartRate: '', weight: '', height: '', symptoms: ''})
+        {bloodPressure: '', heartRate: '', weight: '', height: '', symptoms: '', medicalCenter: ''})
 
+    const [selectedHospital, setSelectedHospital] = useState('')
     const [medDbInfo, setMedDbInfo] = useState(
-        {allMeds:[], allDiseases:[], allTests:[]})
+        {allMeds:[], allDiseases:[], allTests:[], allMedCenters:[]})
 
 
     useEffect(() => {
@@ -21,12 +22,14 @@ function MedicineForm() {
                 const medResponse = await axios.get('/info/all-medicines')
                 const disResponse = await axios.get('/info/all-diseases')
                 const testResponse = await axios.get('/info/all-tests')
+                const medCenterResponse = await axios.get('/info/all-med-centers')
 
                 setMedDbInfo( ({
                     ...medDbInfo,
                     ['allMeds']: medResponse.data,
                     ['allDiseases']: disResponse.data,
-                    ['allTests']: testResponse.data
+                    ['allTests']: testResponse.data,
+                    ['allMedCenters']: medCenterResponse.data
                 }))
 
                 console.log(medDbInfo)
@@ -49,27 +52,59 @@ function MedicineForm() {
 
     const currDate = new Date().toLocaleDateString()
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault()
+
+        condition.patientId = 'P3001'
+        condition.date = currDate
+        condition.dateFormat = 'MM/DD/YYYY'
+
         console.log('Medicine Info:', medicines)
-        console.log('Medicine Info:', diseases)
-        console.log('Medicine Info:', tests)
-        console.log('Medicine Info:', condition)
+        console.log('diseases Info:', diseases)
+        console.log('test Info:', tests)
+        console.log('condition Info:', condition)
+
+        try {
+            const response = await axios.post(`/doctor/add-prescription`,
+                {condition, medicines, tests, diseases});
+
+            if (response.status === 200)
+                console.log('successfully added')
+        } catch (error) {
+            console.error("Login failed:", error)
+        }
     }
 
     return (
         <div>
             <h2>Prescription</h2>
             <form onSubmit={handleSubmit}>
-                <div className="row justify-content-end">
-                    <div className="col-2">
-                        <input
-                            type="text"
-                            className="form-control"
-                            value={currDate}
-                            disabled
-                        />
+                    <div className="row mb-lg-5 mt-lg-5" >
+                        <div className="col-sm-4">
+                            <input className="form-control" list="medCenters"
+                                   name="medicalCenter"
+                                   placeholder="Medical Center"
+                                   required={true}
+                                   onChange={handleConditionChange}
+                            />
+                            <datalist id="medCenters">
+                                {medDbInfo.allMedCenters.map(({NAME}) =>
+                                    <option key={NAME} value={NAME}/> )}
+                            </datalist>
+                        </div>
+                        <div className="col-2"/>
+                        <div className="col-2"/>
+                        <div className="col-2">
+                            <input
+                                type="text"
+                                className="form-control"
+                                value={'Date: ' + currDate}
+                                disabled
+                            />
+                        </div>
                     </div>
+                <div className="row justify-content-end">
+
                 </div>
                 <div className="row">
                     <div className="col-sm-2">

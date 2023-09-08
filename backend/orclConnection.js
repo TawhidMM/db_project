@@ -29,7 +29,6 @@ async function executeQuery(query){
         return result
     }
     catch (error) {
-        console.log(error)
         throw error
     }
 }

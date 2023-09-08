@@ -5,7 +5,7 @@ function MedList({ medicines }) {
     return (
         <>
             {medicines.map((med) => (
-                <>
+                <div key={med.MEDICINE_NAME}>
                     <div className="item">
                         <div className="name_type">
                             <h2>{med.MEDICINE_NAME}</h2>
@@ -23,7 +23,7 @@ function MedList({ medicines }) {
                         </div>
                     </div>
                     <div className="devider"></div>
-                </>
+                </div>
             ))}
         </>
     )

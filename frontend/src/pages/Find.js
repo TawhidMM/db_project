@@ -43,7 +43,7 @@ const Find = () => {
     const getDoctors = async () => {
         try {
             setShowDoctors(false)
-            if (selectedSpec == "" || selectedCity == "") return
+            if (selectedSpec === "" || selectedCity === "") return
             const response = await axios.get(
                 `/patient/find/search/?speciality=${selectedSpec}&city=${selectedCity}`
             )
