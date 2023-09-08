@@ -9,6 +9,9 @@ const util = require("../Utils/VerifyToken")
 doctorRouter.route("/login").post(loginDoctor)
 doctorRouter.route('/add-prescription').post(addPrescription)
 doctorRouter.route("/dashboard").get(util.verifyToken, docController.getDetails)
+doctorRouter
+    .route("/upcoming")
+    .get(util.verifyToken, docController.getUpcomingAppointments)
 doctorRouter.route("/logout").post(util.verifyToken, docController.logOut)
 
 module.exports = doctorRouter;

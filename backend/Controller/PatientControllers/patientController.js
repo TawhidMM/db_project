@@ -121,7 +121,7 @@ async function getAppointmentPrecription(req, res) {
                             p.PATIENT_ID,
                             p.FIRST_NAME||' '||p.LAST_NAME PATIENTNAME,
                             p.GENDER,
-                            trunc(MONTHS_BETWEEN(SYSDATE,p.DOB)/12) AGE ,
+                            trunc(MONTHS_BETWEEN(pa.APPOINTMENT_DATE,p.DOB)/12) AGE ,
                             pa.SYMPTOMS,
                             pa.WEIGHT,
                             pa.BLOOD_PRESSURE,

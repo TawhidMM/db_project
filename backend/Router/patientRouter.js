@@ -13,9 +13,12 @@ const testResult = require('../Controller/PatientControllers/TestResultControlle
 
 
 
-ptRouter.route("/login").post(loginController);
 
-ptRouter.route("/s").post(signupController);
+const findController = require("../Controller/PatientControllers/FindNewDoctorController")
+
+ptRouter.route("/login").post(loginController)
+ptRouter.route("/s").post(signupController)
+ptRouter.route("/dashboard").get(util.verifyToken, ptController.getDetails)
 
 ptRouter.route("/dashboard").get(util.verifyToken, ptController.getDetails);
 
@@ -32,11 +35,9 @@ ptRouter
 ptRouter.route("/logout").post(util.verifyToken, ptController.logOut);
 
 ptRouter.route("/medicine").get(util.verifyToken, ptController.getMedicine);
-
 ptRouter
     .route("/history/appointmentList")
     .get(util.verifyToken, ptController.getAppointmentList);
-
 ptRouter
     .route("/history/appointment")
     .get(util.verifyToken, ptController.getAppointmentPrecription);
@@ -48,4 +49,7 @@ ptRouter.route("/logout").post(util.verifyToken, ptController.logOut)
 
 
 
-module.exports = ptRouter;
+ptRouter.route("/find/search").get(util.verifyToken, findController.getDoctors)
+
+
+module.exports = ptRouter
