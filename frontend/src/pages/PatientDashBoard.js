@@ -6,6 +6,7 @@ import ImageNameCard from "../components/ImageNameCard"
 import PatientHeader from "../components/PatientHeader"
 import DetailsCard from "../components/DetailsCard"
 import HeightChart from "../components/HeightChart"
+import WeightChart from "../components/WeightChart"
 import TableHeaders from "../components/TableHeaders"
 
 import removeKey from "../util/RemoveKey"
@@ -26,6 +27,7 @@ const PatientDashboard = () => {
                 const response = await axios.get("/patient/dashboard") // Replace with patient API endpoint
                 setPatient(response.data.data[0])
                 setHeight(response.data.data2)
+                setWeight(response.data.data3)
             } catch (error) {
                 console.error("Error fetching patient information:", error)
             }
@@ -74,6 +76,10 @@ const PatientDashboard = () => {
                             <br />
                             <div className="App">
                                 <HeightChart data={height} />
+                            </div>
+
+                            <div className="App">
+                                <WeightChart data={weight} />
                             </div>
                         </div>
                     ) : (

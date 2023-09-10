@@ -107,77 +107,6 @@ async function getAppointmentList(req, res) {
     //return res.json({success: true});
 }
 
-async function getAppointmentPrecription(req, res) {
-    console.log("in")
-    console.log(req.access_id + " get appointment of USER")
-    const appointment_id = req.query.appointment_id
-    console.log(appointment_id)
-
-    const query1 = `SELECT 'Dr. '||d.FIRST_NAME||' '||d.LAST_NAME DRNAME ,
-                            d.SPECIALIZATION,
-                            d.DOCTOR_ID,
-                            pa.APPOINTMENT_ID,
-                            TO_CHAR( pa.APPOINTMENT_DATE , 'DD/MM/YYYY') APPOINTMENT_DATE,
-                            d.EMAIL,
-                            m.CENTER_NAME,
-                            m.MED_CENTER_ID,
-                            m.EMAIL,
-                            a.STREET_ADDRESS||' '||a.CITY||', '||a.SUB_DISTRICT||', '||a.DISTRICT||', '||a.POSTAL_CODE MEDADDRESS,
-                            p.PATIENT_ID,
-                            p.FIRST_NAME||' '||p.LAST_NAME PATIENTNAME,
-                            p.GENDER,
-                            trunc(MONTHS_BETWEEN(pa.APPOINTMENT_DATE,p.DOB)/12) AGE ,
-                            pa.SYMPTOMS,
-                            pa.WEIGHT,
-                            pa.BLOOD_PRESSURE,
-                            pa.HEART_RATE,
-                            pa.HEIGHT
-                    FROM PAST_APPOINTMENT pa
-                    JOIN PATIENT p ON (pa.PATIENT_ID=p.PATIENT_ID)
-                    JOIN DOCTOR d ON (pa.DOCTOR_ID = d.DOCTOR_ID)
-                    JOIN MEDICAL_CENTER m ON (m.MED_CENTER_ID= pa.MED_CENTER_ID)
-                    JOIN ADDRESS a ON (m.ADDRESS_ID=a.ADDRESS_ID)
-                    WHERE pa.APPOINTMENT_ID=${appointment_id}`
-
-    const query2 = `SELECT MEDICINE_NAME, DOSAGE_AMOUNT, DOSAGE_FREQUENCY, DURATION, TIMING, 
-                    TILLDATE(APPOINTMENT_ID,m.MEDICINE_ID) TILL
-                    FROM PRESCRIBED_MEDICINES pm JOIN MEDICINE m ON (pm.MEDICINE_ID=m.MEDICINE_ID)
-                    WHERE APPOINTMENT_ID= ${appointment_id}`
-
-    const query3 = `SELECT DISEASE_NAME, DESCRIPTION
-                    FROM DIAGNOSED_DISEASES dd JOIN DISEASE d ON (d.DISEASE_ID=dd.DISEASE_ID)
-                    WHERE APPOINTMENT_ID=${appointment_id}`
-
-    const query4 = `SELECT mt.TEST_NAME
-                    FROM SUGGESTED_TESTS st JOIN MEDICAL_TEST mt ON (st.TEST_ID=mt.TEST_ID)
-                    WHERE st.APPOINTMENT_ID=${appointment_id}`
-
-    try {
-        const query = `SELECT PATIENT_ID
-                    FROM PAST_APPOINTMENT
-                    WHERE APPOINTMENT_ID=${appointment_id}`
-
-        const id_data = await db.executeQuery(query)
-        console.log(appointment_id, id_data[0].PATIENT_ID)
-
-        if (id_data[0].PATIENT_ID !== req.access_id)
-            return res
-                .status(404)
-                .json({ success: false, message: "not found" })
-
-        const details = await db.executeQuery(query1)
-        const medicines = await db.executeQuery(query2)
-        const diagnosed = await db.executeQuery(query3)
-        const test = await db.executeQuery(query4)
-        return res.status(200).send({ details, medicines, diagnosed, test })
-
-        // return res.status(200).send(data);
-    } catch (error) {
-        console.log(error)
-        console.log("error in getAppointmentHistory")
-    }
-}
-
 async function getDoctors(req, res) {
     const patientId = req.query.patient_id
 
@@ -202,6 +131,5 @@ module.exports = {
     getDetails,
     getMedicine,
     getDoctors,
-    getAppointmentPrecription,
     getAppointmentList,
 }

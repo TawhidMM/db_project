@@ -17,16 +17,21 @@ async function getDetails(req, res) {
                     WHERE PATIENT_ID= '${patientId}'
                     ORDER BY APPOINTMENT_DATE ASC`
 
+    const query3 = `SELECT WEIGHT, TO_CHAR(APPOINTMENT_DATE ,'DD-Mon-YYYY') dateon
+                    FROM PAST_APPOINTMENT 
+                    WHERE PATIENT_ID= '${patientId}'
+                    ORDER BY APPOINTMENT_DATE ASC`
     try {
         const data = await db.executeQuery(query)
         const data2 = await db.executeQuery(query2)
+        const data3 = await db.executeQuery(query3)
 
         if (data.length === 0)
             return res
                 .status(400)
                 .json({ success: false, message: "not found" })
 
-        return res.status(200).send({ data, data2 })
+        return res.status(200).send({ data, data2, data3 })
     } catch (error) {
         console.log("error in get details")
 

@@ -22,13 +22,13 @@ Chart.register(
     Tooltip
 )
 
-const HeightChart = ({ data }) => {
+const WeightChart = ({ data }) => {
     const chartData = {
         labels: data.map((entry) => entry.DATEON),
         datasets: [
             {
-                label: "Height (cm)",
-                data: data.map((entry) => entry.HEIGHT),
+                label: "Weight (kg)",
+                data: data.map((entry) => entry.WEIGHT),
                 fill: false,
                 borderColor: "rgb(75, 192, 192)",
                 tension: 0.1,
@@ -53,11 +53,10 @@ const HeightChart = ({ data }) => {
                 },
             },
             y: {
-                beginAtZero: false,
-                min: 70,
+                beginAtZero: true,
                 title: {
                     display: true,
-                    text: "Height (cm)",
+                    text: "Weight (kg)",
                 },
             },
         },
@@ -68,7 +67,7 @@ const HeightChart = ({ data }) => {
             },
             title: {
                 display: true,
-                text: "Height Chart",
+                text: "Weight Chart",
             },
             tooltip: {
                 enabled: true,
@@ -79,10 +78,10 @@ const HeightChart = ({ data }) => {
 
     return (
         <div>
-            <h2>Height Chart</h2>
+            <h2>Weight Chart</h2>
             <Line data={chartData} options={options} />
         </div>
     )
 }
 
-export default HeightChart
+export default WeightChart
