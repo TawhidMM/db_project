@@ -1,22 +1,26 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import { useState } from "react"
+import { useNavigate } from "react-router-dom"
+import axios from "axios"
+import HomeHeader from "../components/HomeHeader"
 
-function Login({user}) {
-    console.log(user)  //[][][][
+function Login({ user }) {
+    console.log(user) //[][][][
 
-    const [nid, setNid] = useState("");
-    const [password, setPassword] = useState("");
-    const navigate = useNavigate();
+    const [nid, setNid] = useState("")
+    const [password, setPassword] = useState("")
+    const navigate = useNavigate()
 
     const handleLogin = async (event) => {
-        console.log("Username:", nid);
-        console.log("Password:", password);
+        console.log("Username:", nid)
+        console.log("Password:", password)
 
-        event.preventDefault();
+        event.preventDefault()
 
         try {
-            const response = await axios.post(`/${user}/login`, { nid, password });
+            const response = await axios.post(`/${user}/login`, {
+                nid,
+                password,
+            })
 
             if (response.status === 200) {
                 navigate(`../${user}/dashboard`)
@@ -27,11 +31,12 @@ function Login({user}) {
         }
     }
     const handleSignupClick = () => {
-        navigate(`../patient/signup`);
+        navigate(`../patient/signup`)
     }
 
     return (
         <>
+            <HomeHeader />
             <div className="header">
                 <center>
                     <br />
@@ -69,7 +74,7 @@ function Login({user}) {
                 >
                     Log in
                 </button>
-                {user === 'patient' &&
+                {user === "patient" && (
                     <button
                         type="button"
                         className="btn btn-link"
@@ -77,10 +82,10 @@ function Login({user}) {
                     >
                         Sign up
                     </button>
-                }
+                )}
             </div>
         </>
-    );
+    )
 }
 
-export default Login;
+export default Login

@@ -6,7 +6,7 @@ async function getDoctors(req, res) {
     const speciality = req.query.speciality
     const location = req.query.city
 
-    const query = `SELECT DISTINCT (D.FIRST_NAME || ' ' || D.LAST_NAME) NAME, M.CENTER_NAME MED_CENTER,
+    const query = `SELECT DISTINCT ('Dr. '||D.FIRST_NAME || ' ' || D.LAST_NAME) NAME, M.CENTER_NAME MED_CENTER,
                     (A.STREET_ADDRESS || ', ' || A.CITY || ', ' || A.SUB_DISTRICT || ', ' ||A.DISTRICT || '-' || A.POSTAL_CODE) ADDRESS,
                     AVAILABLE_DAYS(D.DOCTOR_ID, M.MED_CENTER_ID) AVAILABLE_DAYS
 
