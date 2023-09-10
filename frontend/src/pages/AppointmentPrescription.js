@@ -68,7 +68,7 @@ const AppointmentPrescription = () => {
 
     return (
         <>
-            <PatientHeader />
+            {/* <PatientHeader /> */}
             {/* <button
                 className="btn btn-primary"
                 type="button"
@@ -247,7 +247,9 @@ const AppointmentPrescription = () => {
                                                 <ul>
                                                     <TestList
                                                         test={suggestedTest}
-                                                        appointmentId={appointment_id}
+                                                        appointmentId={
+                                                            appointment_id
+                                                        }
                                                     />
                                                 </ul>
                                             </div>

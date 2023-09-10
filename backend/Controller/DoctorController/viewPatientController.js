@@ -2,9 +2,9 @@ const db = require("../../orclConnection")
 require("jsonwebtoken")
 
 async function getDetails(req, res) {
-    console.log(req.access_id + " get details of USER")
+    console.log(req.query.patient_id + " get details of patient for doctor")
 
-    const patientId = req.access_id
+    const patientId = req.query.patient_id
 
     const query = `SELECT FIRST_NAME ||' '||LAST_NAME NAME, EMAIL, GENDER, TO_CHAR(DOB, 'DD MONTH YYYY') DOB, BLOOD_GROUP, PHOTO_URL ,
                     STREET_ADDRESS||' '||CITY||', '||SUB_DISTRICT||', '||DISTRICT||', '||POSTAL_CODE ADDRESS
@@ -35,9 +35,9 @@ async function getDetails(req, res) {
 }
 
 async function getMedicine(req, res) {
-    console.log(req.access_id + " get medicine of USER")
+    console.log(req.query.patient_id + " get medicine of USER")
 
-    const patientId = req.access_id
+    const patientId = req.query.patient_id
 
     const sinceMonth = req.query.month
     const doctor = req.query.doctor
@@ -86,9 +86,9 @@ async function getMedicine(req, res) {
 }
 
 async function getAppointmentList(req, res) {
-    console.log(req.access_id + " get AppointmentList of USER")
+    console.log(req.query.patient_id + " get AppointmentList of USER")
 
-    const patientId = req.access_id
+    const patientId = req.query.patient_id
 
     const query = `SELECT pa.APPOINTMENT_ID, TO_CHAR(pa.APPOINTMENT_DATE, 'DD-MON-YYYY') APPOINTMENT_DATE, 'Dr. '||d.FIRST_NAME||' '||d.LAST_NAME DRNAME, m.CENTER_NAME, SYMPTOMS
                     FROM PAST_APPOINTMENT pa JOIN DOCTOR d ON (pa.DOCTOR_ID=d.DOCTOR_ID)
@@ -160,13 +160,10 @@ async function getAppointmentPrecription(req, res) {
         const id_data = await db.executeQuery(query)
         console.log(appointment_id, id_data[0].PATIENT_ID)
 
-        const requestedBy = req.access_id
-
         if (id_data[0].PATIENT_ID !== req.access_id)
-            if (requestedBy[0] != "D")
-                return res
-                    .status(404)
-                    .json({ success: false, message: "not found" })
+            return res
+                .status(404)
+                .json({ success: false, message: "not found" })
 
         const details = await db.executeQuery(query1)
         const medicines = await db.executeQuery(query2)
@@ -181,16 +178,30 @@ async function getAppointmentPrecription(req, res) {
     }
 }
 
-async function logOut(req, res) {
-    res.cookie("login", "", { httpOnly: true })
+async function getDoctors(req, res) {
+    const patientId = req.query.patient_id
 
-    res.json({ success: true })
+    const query = `SELECT DISTINCT (D.FIRST_NAME || ' ' || D.LAST_NAME) DOCTOR_NAME
+                            FROM PAST_APPOINTMENT PA JOIN PRESCRIBED_MEDICINES PM
+                            ON PA.APPOINTMENT_ID = PM.APPOINTMENT_ID JOIN DOCTOR D
+                            ON PA.DOCTOR_ID = D.DOCTOR_ID
+                            WHERE PATIENT_ID = '${patientId}'`
+
+    try {
+        const data = await db.executeQuery(query)
+
+        return res.status(200).send(data)
+    } catch (error) {
+        console.log("error in get my doctors")
+
+        console.log(error)
+    }
 }
 
 module.exports = {
     getDetails,
     getMedicine,
+    getDoctors,
     getAppointmentPrecription,
     getAppointmentList,
-    logOut,
 }
