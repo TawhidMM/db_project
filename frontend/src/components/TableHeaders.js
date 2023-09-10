@@ -25,7 +25,6 @@ function TableHeaders({info, highlightedInfo, links, highlightedLinks}) {
             </thead>
 
             <tbody>
-
             {highlightedInfo.map((rows,rowIndex) =>
                 <tr className="table-info" key={rowIndex}>
                     {Object.keys(rows).map((key,colIndex) =>

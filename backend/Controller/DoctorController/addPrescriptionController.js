@@ -3,13 +3,13 @@ const {executeQuery} = require("../../orclConnection");
 
 async function addPrescription(req, res) {
 
+
     const appointmentInfo = req.body.condition
     const medicines = req.body.medicines
     const diseases =  req.body.diseases
     const tests = req.body.tests
 
-    //const doctorId = req.access_id
-    const doctorId = 'D0041'
+    const doctorId = req.access_id
 
     let getAppointmentId
 
@@ -40,7 +40,7 @@ async function addAppointment(appointmentId, appointmentInfo, doctorId){
                                     '${appointmentInfo.dateFormat}','${appointmentInfo.symptoms}', 
                                     '${appointmentInfo.weight}', '${appointmentInfo.bloodPressure}',
                                     '${appointmentInfo.height}', '${appointmentInfo.heartRate}', 
-                                    '${appointmentInfo.patientId}','${doctorId}', '${appointmentInfo.medicalCenter}');
+                                    'P${appointmentInfo.patientId}','${doctorId}', '${appointmentInfo.medicalCenter}');
                               END;`
 
         await executeQuery(query)
@@ -102,7 +102,5 @@ async function addTests(appointmentId, givenTests){
         throw error
     }
 }
-
-
 
 module.exports = addPrescription

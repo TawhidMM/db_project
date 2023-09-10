@@ -7,7 +7,7 @@ const util = require("../Utils/VerifyToken")
 
 
 doctorRouter.route("/login").post(loginDoctor)
-doctorRouter.route('/add-prescription').post(addPrescription)
+doctorRouter.route('/add-prescription').post(util.verifyToken, addPrescription)
 doctorRouter.route("/dashboard").get(util.verifyToken, docController.getDetails)
 doctorRouter
     .route("/upcoming")

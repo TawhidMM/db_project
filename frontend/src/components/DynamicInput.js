@@ -27,7 +27,7 @@ function DynamicInput({elements, setElement, options}) {
 
     return (
         <>
-            {elements.map((medicine, index) => (
+            {elements.map((m, index) => (
                 <div key={index} className="row mb-1" >
                     <div className="col-sm-6">
                         <input className="form-control" list={listName}
@@ -49,3 +49,6 @@ function DynamicInput({elements, setElement, options}) {
 }
 
 export default DynamicInput
+
+
+

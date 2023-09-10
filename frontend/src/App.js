@@ -26,6 +26,7 @@ import UpcomingAppointments from "./pages/UpcomingAppointment"
 import LiveSearch from "./components/LiveSearch"
 import TestResult from "./pages/TestResult";
 import AddTestResult from "./pages/AddTestResult";
+import Demo from "./pages/DEMO";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -60,6 +61,7 @@ const router = createBrowserRouter(
                 element={<HospitalDashboard />}
             />
             <Route path={"/hospital/add-test-result"} element={<AddTestResult />}/>
+            <Route path={"/demo"} element={<Demo />}/>
         </Route>
     )
 )

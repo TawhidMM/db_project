@@ -2,8 +2,10 @@ import React, {useEffect, useState} from 'react';
 import MedicineInput from "../components/MedicineInput";
 import DynamicInput from "../components/DynamicInput";
 import axios from "axios";
+import {useSearchParams} from "react-router-dom";
 
 function MedicineForm() {
+    const [searchParams, setSearchParams] = useSearchParams()
     const [medicines, setMedicines] = useState([
         { name: '', dose: '', frequency: '',duration:'', timing:''}])
     const [diseases, setDiseases] = useState([''])
@@ -14,6 +16,9 @@ function MedicineForm() {
     const [selectedHospital, setSelectedHospital] = useState('')
     const [medDbInfo, setMedDbInfo] = useState(
         {allMeds:[], allDiseases:[], allTests:[], allMedCenters:[]})
+
+    const patientId = searchParams.get('patient_id')
+    const patientName = searchParams.get('patient_name')
 
 
     useEffect(() => {
@@ -55,7 +60,7 @@ function MedicineForm() {
     const handleSubmit = async (event) => {
         event.preventDefault()
 
-        condition.patientId = 'P3001'
+        condition.patientId = patientId
         condition.date = currDate
         condition.dateFormat = 'MM/DD/YYYY'
 
@@ -77,7 +82,13 @@ function MedicineForm() {
 
     return (
         <div>
-            <h2>Prescription</h2>
+            <div className="d-grid gap-2 col-2 mx-auto mt-3">
+                <h2>Prescription</h2>
+            </div>
+            <div className='mt-lg-4 mb-3'>
+                <h5>Name : {patientName}</h5>
+                <h5>ID : {patientId}</h5>
+            </div>
             <form onSubmit={handleSubmit}>
                     <div className="row mb-lg-5 mt-lg-5" >
                         <div className="col-sm-4">
