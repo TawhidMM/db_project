@@ -5,11 +5,14 @@ export default function AddTestResult(){
     const [allTests, setAllTests] = useState([{}])
     const [selectedTest, setSelectedTest] = useState('')
     const [appointmentId, setAppointmentId] = useState('')
+    const [testParams, setTestParams] = useState([])
+    //const [testParams, setTestParams] = useState([])
 
     useEffect(() => {
         (async () =>{
             try {
-                const testResponse = await axios.get('/info/all-tests')
+                const testResponse = await axios.get(
+                    `/hospital/upload-result/test-names/?app_id=${appointmentId}`)
 
                 setAllTests(testResponse.data)
 
@@ -17,16 +20,65 @@ export default function AddTestResult(){
                 console.error('error in getting all test info', error)
             }
         })()
-    }, [])
+    }, [appointmentId])
 
 
-    function handleUploadResult() {
+    async function handleUploadResult() {
+        try{
+            console.log(selectedTest, appointmentId)
+            const response = await axios.post
+                                ('/hospital/upload-result', {selectedTest})
 
+
+            //setTestParams(response.data)
+
+            const result = response.data.map(p =>({
+                ...p,
+                RESULT: '',
+                REMARK: ''
+            }))
+
+            setTestParams(result)
+
+            console.log(response.data, 'res')
+
+        } catch (error) {
+
+            console.log('error fetching test prams')
+            console.log(error)
+        }
+    }
+
+    function handleResultInput(event, index) {
+        const {value, name} = event.target
+
+        const updatedParams = [...testParams]
+        updatedParams[index][name] = value
+
+        setTestParams(updatedParams)
 
     }
 
+
+    async function handleSubmit(event) {
+        event.preventDefault()
+
+        try {
+            const response = await axios.post
+                ('/hospital/upload-result/submit', {appointmentId, selectedTest, testParams})
+
+        } catch (error) {
+
+            console.log('error submitting test result')
+            console.log(error)
+        }
+
+        console.log(testParams, 'add click')
+    }
+
+
     return(
-        <>
+        <form onSubmit={handleSubmit}>
             <div className='row'>
                 <div className='col-sm-4 mt-5'>
                     <input className="form-control"
@@ -52,10 +104,43 @@ export default function AddTestResult(){
                     <button type="button" className="btn btn-outline-warning"
                             onClick={handleUploadResult}
                     >
-                        upload result
+                        input result
                     </button>
                 </div>
             </div>
-        </>
+
+            <div className="container">
+            {testParams.map((p, index) =>
+                <div className='row align-items-center' key={p.PARAMETER_NAME}>
+                    <div className='col-sm-2 mt-5'>
+                        <p>{p.PARAMETER_NAME}</p>
+                    </div>
+                    <div className='col-sm-2 mt-5'>
+                        <input className="form-control"
+                               name="RESULT" type='text'
+                               placeholder={'result value (' + (p.UNIT) + ')'}
+                               onChange={(e) =>
+                                   handleResultInput(e, index)}
+                               required={true}
+                        />
+                    </div>
+                    <div className='col-sm-2 mt-5'>
+                        <input className="form-control" type='text'
+                               name="REMARKS"
+                               placeholder='remarks'
+                               onChange={(e) =>
+                                   handleResultInput(e, index)}
+                        />
+                    </div>
+                </div>
+            )}
+            </div>
+            {testParams.length !== 0 &&
+            <div className="d-grid gap-2 col-2 mx-auto mt-3">
+                <button className="btn btn-primary" type="submit">
+                    submit
+                </button>
+            </div> }
+        </form>
     )
 }

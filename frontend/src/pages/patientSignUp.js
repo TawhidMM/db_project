@@ -63,7 +63,7 @@ function PatientSignUp() {
     }
 
     return (
-        <>
+        <form>
             <div className="header">
                 <center>
                     <br />
@@ -79,6 +79,7 @@ function PatientSignUp() {
                         name={"nid"}
                         placeholder={"NID number"}
                         form={form}
+                        required={true}
                     />
                 </div>
             </div>
@@ -95,6 +96,7 @@ function PatientSignUp() {
                         name={"lastName"}
                         placeholder={"Last name"}
                         form={form}
+                        required={true}
                     />
                 </div>
             </div>
@@ -231,7 +233,7 @@ function PatientSignUp() {
                     Log in
                 </button>
             </div>
-        </>
+        </form>
     )
 }
 

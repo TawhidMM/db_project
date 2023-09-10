@@ -62,10 +62,7 @@ const router = createBrowserRouter(
                 path={"/hospital/dashboard"}
                 element={<HospitalDashboard />}
             />
-            <Route
-                path={"/hospital/add-test-result"}
-                element={<AddTestResult />}
-            />
+            <Route path={"/hospital/add-test-result"} element={<AddTestResult />}/>
         </Route>
     )
 )

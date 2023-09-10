@@ -1,5 +1,9 @@
 const db = require("../../orclConnection")
 require("jsonwebtoken")
+const {executeQuery} = require("../../orclConnection");
+
+
+
 
 async function getDetails(req, res) {
     console.log(req.access_id + " get details of Hospital")

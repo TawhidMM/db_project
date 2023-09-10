@@ -106,7 +106,6 @@ async function getAppointmentList(req, res) {
     }
     //return res.json({success: true});
 }
-
 async function getDoctors(req, res) {
     const patientId = req.query.patient_id
 

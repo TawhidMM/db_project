@@ -1,9 +1,12 @@
 function removeFromArray(jsonArray, keysToRemove) {
+
     return jsonArray.map(obj => {
+        const copyObj = {...obj}
+
         keysToRemove.forEach(key => {
-            delete obj[key]
+            delete copyObj[key]
         })
-        return obj
+        return copyObj
     })
 }
 

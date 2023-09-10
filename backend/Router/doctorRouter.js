@@ -7,7 +7,7 @@ const viewController = require("../Controller/DoctorController/viewPatientContro
 const util = require("../Utils/VerifyToken")
 
 doctorRouter.route("/login").post(loginDoctor)
-doctorRouter.route("/add-prescription").post(addPrescription)
+doctorRouter.route('/add-prescription').post(util.verifyToken, addPrescription)
 doctorRouter.route("/dashboard").get(util.verifyToken, docController.getDetails)
 doctorRouter
     .route("/upcoming")
@@ -26,4 +26,4 @@ doctorRouter
     .get(util.verifyToken, viewController.getAppointmentList)
 doctorRouter.route("/logout").post(util.verifyToken, docController.logOut)
 
-module.exports = doctorRouter
+module.exports = doctorRouter;
