@@ -7,7 +7,7 @@ import ImageNameCard from "../components/ImageNameCard"
 import DoctorHeader from "../components/DoctorHeader"
 import DetailsCard from "../components/DetailsCard"
 import TableHeaders from "../components/TableHeaders"
-import HeightChart from "../components/HeightChart"
+// import HeightChart from "../components/HeightChart"
 
 import removeKey from "../util/RemoveKey"
 
@@ -47,8 +47,6 @@ const PatientDashboard = () => {
     const handleMonthChange = (event) => {
         setSelectedMonth(event.target.value)
     }
-
-    // keys will be removed for Details Card
 
     useEffect(() => {
         const getPatient = async () => {
@@ -134,7 +132,7 @@ const PatientDashboard = () => {
         }
     }
 
-    const toBeRemovedKey = ["MED_URL"]
+    const toBeRemovedKey = ["MED_URL", "PHOTO_URL"]
 
     return (
         <>
@@ -160,9 +158,9 @@ const PatientDashboard = () => {
                                 </div>
                             </div>
 
-                            <div className="App">
+                            {/* <div className="App">
                                 <HeightChart data={height} />
-                            </div>
+                            </div> */}
                         </div>
                     ) : (
                         <p>No data</p>
