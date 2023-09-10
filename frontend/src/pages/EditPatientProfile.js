@@ -1,22 +1,20 @@
-import axios from "axios";
-import {useEffect, useState} from "react";
-import InputCard from "../components/InputCard";
-import {useNavigate} from "react-router-dom";
-
+import axios from "axios"
+import { useEffect, useState } from "react"
+import InputCard from "../components/InputCard"
+import { useNavigate } from "react-router-dom"
 
 function EditPatientProfile() {
     const [passChange, setPassChange] = useState(false)
     const [pass, setPass] = useState({
         password: "",
-        confirmedPassword: ""
+        confirmedPassword: "",
     })
     const [passwordMatch, setPasswordMatch] = useState(true)
 
     const patientInfoState = useState({})
-    const[patient, setPatient] = patientInfoState
+    const [patient, setPatient] = patientInfoState
 
     const navigate = useNavigate()
-
 
     useEffect(() => {
         const getPatient = async () => {
@@ -25,14 +23,13 @@ function EditPatientProfile() {
                 setPatient(response.data[0])
 
                 console.log(patient)
-
             } catch (error) {
                 console.error("Error fetching patient information ")
                 console.log(error)
             }
         }
 
-        (async ()=>{
+        ;(async () => {
             await getPatient()
         })()
     }, [])
@@ -43,14 +40,13 @@ function EditPatientProfile() {
     function handlePassChange(event) {
         setPass({
             ...pass,
-            [event.target.name]: event.target.value
+            [event.target.name]: event.target.value,
         })
 
         setPasswordMatch(true)
     }
 
     async function handleUpdate() {
-
         console.log(patient)
 
         if (pass.password !== pass.confirmedPassword) {
@@ -61,18 +57,20 @@ function EditPatientProfile() {
 
         patient.PASSWORD = pass.password
 
-        const response = await axios.post('/patient/edit-profile/save-changes', patient)
+        const response = await axios.post(
+            "/patient/edit-profile/save-changes",
+            patient
+        )
 
-        if(response.status === 200){
-            navigate('../patient/dashboard')
+        if (response.status === 200) {
+            navigate("../patient/dashboard")
             console.log(response.data)
         }
-
     }
 
-    return(
+    return (
         <>
-            <InputCard infoState={patientInfoState}/>
+            <InputCard infoState={patientInfoState} />
             <div className="d-grid gap-2 col-2 mx-auto mt-3">
                 <button
                     type="button mx-auto mt-3"
@@ -82,18 +80,22 @@ function EditPatientProfile() {
                     Change Password
                 </button>
             </div>
-            {passChange &&
+            {passChange && (
                 <div className="card mb-3 col-lg-5 mx-auto mt-3">
-                    <input type="password" name="password"
-                           placeholder="new passwored"
-                           onChange={handlePassChange}
+                    <input
+                        type="password"
+                        name="password"
+                        placeholder="new password"
+                        onChange={handlePassChange}
                     />
-                    <input type="password" name="confirmedPassword"
-                           placeholder="confirm passwored"
-                           onChange={handlePassChange}
+                    <input
+                        type="password"
+                        name="confirmedPassword"
+                        placeholder="confirm password"
+                        onChange={handlePassChange}
                     />
                 </div>
-            }
+            )}
             {!passwordMatch && (
                 <div className="alert alert-danger mx-auto col-3" role="alert">
                     please enter the same password
@@ -109,9 +111,7 @@ function EditPatientProfile() {
                 </button>
             </div>
         </>
-
     )
-
 }
 
 export default EditPatientProfile

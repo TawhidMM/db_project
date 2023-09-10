@@ -10,3 +10,18 @@ BEGIN
     AND TO_CHAR(FA.APPOINTMENT_DATE) = TO_CHAR(:NEW.APPOINTMENT_DATE);
 END;
 /
+
+
+
+CREATE OR REPLACE TRIGGER DEFAULT_IMAGE
+BEFORE INSERT
+ON PATIENT
+FOR EACH ROW
+BEGIN
+ IF :NEW.PHOTO_URL IS NULL THEN
+	:NEW.PHOTO_URL := 'https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg';
+END IF;
+
+END;
+
+/

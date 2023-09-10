@@ -65,19 +65,6 @@ const Home = () => {
                                 </li>
                             </ul>
                         </li>
-                        <li className="nav-item">
-                            <a className="nav-link" href="/patient/signup">
-                                Sign Up
-                            </a>
-                        </li>
-                        <li className="nav-item">
-                            <a
-                                className="nav-link disabled"
-                                aria-disabled="true"
-                            >
-                                Disabled
-                            </a>
-                        </li>
                     </ul>
                 </div>
             </div>

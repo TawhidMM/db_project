@@ -8,11 +8,14 @@ function Login({ user }) {
 
     const [nid, setNid] = useState("")
     const [password, setPassword] = useState("")
+    const [success, setSuccess] = useState(true)
     const navigate = useNavigate()
 
     const handleLogin = async (event) => {
         console.log("Username:", nid)
         console.log("Password:", password)
+
+        setSuccess(true)
 
         event.preventDefault()
 
@@ -24,10 +27,13 @@ function Login({ user }) {
 
             if (response.status === 200) {
                 navigate(`../${user}/dashboard`)
-            } else if (response.status === 404)
+            } else if (response.status === 404) {
                 console.log("invalid id/password")
+                setSuccess(false)
+            }
         } catch (error) {
             console.error("Login failed:", error)
+            setSuccess(false)
         }
     }
     const handleSignupClick = () => {
@@ -84,6 +90,12 @@ function Login({ user }) {
                     </button>
                 )}
             </div>
+
+            {!success && (
+                <div className="alert alert-danger mx-auto col-3" role="alert">
+                    Wrong Credentials
+                </div>
+            )}
         </>
     )
 }

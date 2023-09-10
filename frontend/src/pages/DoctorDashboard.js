@@ -54,7 +54,7 @@ const DoctorDashboard = () => {
                                     />
                                 </div>
                             </div>
-                            <button
+                            {/* <button
                                 className="btn btn-primary"
                                 type="button"
                                 onClick={(event) =>
@@ -62,7 +62,7 @@ const DoctorDashboard = () => {
                                 }
                             >
                                 Edit Profile
-                            </button>
+                            </button> */}
                         </div>
                     ) : (
                         <p>No data</p>
