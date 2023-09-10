@@ -108,3 +108,26 @@ BEGIN
     END IF;
 END;
 
+
+
+CREATE OR REPLACE PROCEDURE ADD_TEST_RESULT(
+                                A_ID IN NUMBER,
+                                R_ID IN NUMBER,
+                                H_ID IN VARCHAR2,
+                                T_NAME IN VARCHAR2
+) IS
+    T_ID NUMBER;
+BEGIN
+    INSERT INTO TEST_RESULT(RESULT_ID, TEST_DATE, MED_CENTER_ID)
+                        VALUES (R_ID, SYSDATE, H_ID);
+
+    SELECT TEST_ID INTO T_ID
+    FROM MEDICAL_TEST
+    WHERE TEST_NAME = T_NAME;
+
+    UPDATE SUGGESTED_TESTS
+    SET RESULT_ID = R_ID
+    WHERE APPOINTMENT_ID = A_ID
+    AND TEST_ID = T_ID;
+END;
+
