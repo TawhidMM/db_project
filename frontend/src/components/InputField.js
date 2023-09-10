@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import {useEffect, useState} from "react";
 
 
-function InputField({name ,placeholder, form}){
+function InputField({name ,placeholder, form, required}){
     const [value, setValue] = useState("")
     const [formData, setFormData] = form
 
@@ -28,6 +28,7 @@ function InputField({name ,placeholder, form}){
                     placeholder={placeholder}
                     onChange={(event)=>
                         setValue(event.target.value)}
+                    required={required}
                 />
                 <label htmlFor="floatingInput">{placeholder}</label>
             </div>
