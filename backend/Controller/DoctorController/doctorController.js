@@ -42,7 +42,8 @@ async function getUpcomingAppointments(req, res) {
 
     const todayAppointmentNum = `SELECT COUNT(*) TODAY_APPOINTMENT
                                         FROM FUTURE_APPOINTMENT
-                                        WHERE TO_CHAR(APPOINTMENT_DATE) = TO_CHAR(SYSDATE)`
+                                        WHERE TO_CHAR(APPOINTMENT_DATE) = TO_CHAR(SYSDATE)
+                                        AND DOCTOR_ID = '${doctorId}'`
 
     try {
 

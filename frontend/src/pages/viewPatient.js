@@ -225,11 +225,11 @@ const PatientDashboard = () => {
                                 <h2>Used Medicines</h2>
                                 <TableHeaders
                                     highlightedInfo={
-                                        /*removeKey(*/ runningMedicines /*,toBeRemovedKey)*/
+                                        removeKey( runningMedicines ,toBeRemovedKey)
                                     }
                                     highlightedLinks={medLinks.runningMedLinks}
                                     info={
-                                        /*removeKey(*/ pastMedicines /*,toBeRemovedKey)*/
+                                        removeKey( pastMedicines ,toBeRemovedKey)
                                     }
                                     links={medLinks.pastMedLinks}
                                 />

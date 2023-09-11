@@ -10,7 +10,7 @@ const confirmUpdate = require("../Controller/PatientControllers/ConfirmProfileUp
 const getMyDoctors = require("../Controller/PatientControllers/FindMyDoctorsController");
 const testResult = require('../Controller/PatientControllers/TestResultController')
 const findController = require("../Controller/PatientControllers/FindNewDoctorController")
-
+const bookAppointment = require('../Controller/PatientControllers/BookAppointmentController')
 
 
 ptRouter.route("/login").post(loginController)
@@ -36,6 +36,7 @@ ptRouter.route('/history/test-result').get(util.verifyToken, testResult)
 ptRouter.route("/logout").post(util.verifyToken, ptController.logOut)
 ptRouter.route("/find").get(util.verifyToken, findController.getOptions)
 ptRouter.route("/find/search").get(util.verifyToken, findController.getDoctors)
+ptRouter.route("/find/book-appointment").post(util.verifyToken, bookAppointment)
 
 
 module.exports = ptRouter

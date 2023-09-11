@@ -6,6 +6,8 @@ import { useNavigate } from "react-router-dom"
 import TableHeaders from "../components/TableHeaders"
 
 import removeKey from "../util/RemoveKey"
+import formatString from "../util/StringFormat";
+import MyModal from "../components/MyModal";
 
 const Find = () => {
     const [speciality, setSpecialty] = useState([])
@@ -56,6 +58,10 @@ const Find = () => {
         }
     }
 
+    function handleAddClick(rows) {
+        
+    }
+
     return (
         <>
             <div>
@@ -97,11 +103,29 @@ const Find = () => {
                 {showDoctors && (
                     <div>
                         <h2>Doctors</h2>
-                        <TableHeaders
-                            info={doctors}
-                            highlightedInfo={[]}
-                            links={[]}
-                        />
+                        <table className="table table-striped">
+                            <thead>
+                            <tr>
+                                {Object.keys(doctors[0]).map((key) => (
+                                        <th scope="col" key={key}> {formatString(key)} </th>
+                                    ))}
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {doctors.map((rows,rowIndex) =>
+                                <tr className="table-light" key={rowIndex}>
+                                    {Object.keys(rows).map((key,colIndex) =>
+                                        <td key={key}>
+                                            {rows[key]}
+                                        </td>
+                                    )}
+                                    <td>
+                                        <MyModal key={rowIndex} appointment={rows} rowNum={rowIndex}/>
+                                    </td>
+                                </tr>
+                            )}
+                            </tbody>
+                        </table>
                     </div>
                 )}
             </center>

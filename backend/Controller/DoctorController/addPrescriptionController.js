@@ -26,6 +26,8 @@ async function addPrescription(req, res) {
         await addDiseases(appointmentId, diseases)
         await addTests(appointmentId, tests)
 
+        res.status(200).send('successfully uploaded prescription')
+
     } catch(error) {
         console.log(error)
     }

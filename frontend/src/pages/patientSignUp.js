@@ -29,7 +29,9 @@ function PatientSignUp() {
         "O-",
     ]
 
-    const handleSignInClick = async () => {
+    const handleSignInClick = async (event) => {
+        event.preventDefault()
+
         const { password, confirmPassword } = formInput
         setSignUpFailed(false)
 
@@ -44,14 +46,23 @@ function PatientSignUp() {
         try {
             const response = await axios.post("/patient/s", formInput)
             console.log(response.data)
+
+            if(response.status === 200)
+                navigate('../patient/login')
+
+
         } catch (error) {
+            setSignUpFailed(true)
+
             if (error.response.status === 436) {
                 const { message } = error.response.data
                 console.log(message)
                 console.log(error.response.data)
-                setSignUpFailed(true)
+
                 setSignUpAlertMsg(message)
             } else {
+                setSignUpAlertMsg("signup failed")
+
                 console.log("signup failed")
                 console.log(error)
             }
@@ -63,7 +74,7 @@ function PatientSignUp() {
     }
 
     return (
-        <form>
+        <form onSubmit={handleSignInClick}>
             <div className="header">
                 <center>
                     <br />
@@ -89,6 +100,7 @@ function PatientSignUp() {
                         name={"firstName"}
                         placeholder={"First name"}
                         form={form}
+                        required={true}
                     />
                 </div>
                 <div className="col">
@@ -105,6 +117,7 @@ function PatientSignUp() {
                     name={"email"}
                     placeholder={"email address"}
                     form={form}
+                    required={true}
                 />
             </div>
             <div className="row my-3">
@@ -114,6 +127,7 @@ function PatientSignUp() {
                         defaultItem={"Blood Group"}
                         options={bloodGroups}
                         form={form}
+
                     />
                 </div>
                 <div className="col">
@@ -147,6 +161,7 @@ function PatientSignUp() {
                         name={"imageUrl"}
                         placeholder={"Image url"}
                         form={form}
+                        required={false}
                     />
                 </div>
             </div>
@@ -156,6 +171,7 @@ function PatientSignUp() {
                         name={"street"}
                         placeholder={"Street"}
                         form={form}
+                        required={true}
                     />
                 </div>
                 <div className="col">
@@ -163,6 +179,7 @@ function PatientSignUp() {
                         name={"city"}
                         placeholder={"City"}
                         form={form}
+                        required={true}
                     />
                 </div>
                 <div className="col">
@@ -170,6 +187,7 @@ function PatientSignUp() {
                         name={"postalCode"}
                         placeholder={"Postal Code"}
                         form={form}
+                        required={true}
                     />
                 </div>
             </div>
@@ -179,6 +197,7 @@ function PatientSignUp() {
                         name={"subDistrict"}
                         placeholder={"Sub District"}
                         form={form}
+                        required={false}
                     />
                 </div>
                 <div className="col">
@@ -186,6 +205,7 @@ function PatientSignUp() {
                         name={"district"}
                         placeholder={"District"}
                         form={form}
+                        required={false}
                     />
                 </div>
             </div>
@@ -195,6 +215,7 @@ function PatientSignUp() {
                         name={"password"}
                         placeholder={"Password"}
                         form={form}
+                        required={true}
                         changeAlert={setPasswordMatch}
                     />
                 </div>
@@ -203,6 +224,7 @@ function PatientSignUp() {
                         name={"confirmPassword"}
                         placeholder={"Confirm Password"}
                         form={form}
+                        required={true}
                         changeAlert={setPasswordMatch}
                     />
                 </div>
@@ -219,9 +241,9 @@ function PatientSignUp() {
             )}
             <div className="d-grid gap-2 col-2 mx-auto mt-3">
                 <button
-                    type="button"
+                    type="submit"
                     className="btn btn-primary"
-                    onClick={handleSignInClick}
+                   /* onClick={handleSignInClick}*/
                 >
                     Sign up
                 </button>

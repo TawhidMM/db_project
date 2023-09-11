@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import MedicineInput from "../components/MedicineInput";
 import DynamicInput from "../components/DynamicInput";
 import axios from "axios";
-import {useSearchParams} from "react-router-dom";
+import {useNavigate, useSearchParams} from "react-router-dom";
 
 function MedicineForm() {
     const [searchParams, setSearchParams] = useSearchParams()
@@ -19,6 +19,8 @@ function MedicineForm() {
 
     const patientId = searchParams.get('patient_id')
     const patientName = searchParams.get('patient_name')
+
+    const navigate= useNavigate()
 
 
     useEffect(() => {
@@ -73,10 +75,14 @@ function MedicineForm() {
             const response = await axios.post(`/doctor/add-prescription`,
                 {condition, medicines, tests, diseases});
 
-            if (response.status === 200)
+            if (response.status === 200) {
                 console.log('successfully added')
+
+                navigate('../doctor/upcoming')
+            }
+
         } catch (error) {
-            console.error("Login failed:", error)
+            console.error("upload failed:", error)
         }
     }
 

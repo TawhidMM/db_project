@@ -3,18 +3,10 @@ import {useEffect, useState} from "react";
 
 
 
-function PasswordInput({name ,placeholder, form, changeAlert}) {
+function PasswordInput({name ,placeholder, form, changeAlert, required}) {
     const [value, setValue] = useState("")
     const [formData, setFormData] = form
 
-    /*const handleChange = (event)=>{
-        setValue(event.target.value)
-
-        setFormData({
-            ...formData,
-            [name]: value
-        })
-    }*/
 
     useEffect(() => {
         if (value) CallAPIWithSearchText(value)
@@ -32,6 +24,7 @@ function PasswordInput({name ,placeholder, form, changeAlert}) {
             <input
                 type="password" className="form-control"
                 id={name} placeholder={placeholder}
+                required={required}
                 onChange={(event)=> {
                         setValue(event.target.value)
                         changeAlert(true)

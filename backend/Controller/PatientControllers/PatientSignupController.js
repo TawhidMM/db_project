@@ -4,7 +4,6 @@ const errorMsg = require('../../Utils/OrclErrorMap')
 
 async function signupPatient(req, res) {
     console.log('got here')
-    //console.log(req.body)
 
     const {
         nid, firstName, lastName, email, bloodGroup, gender,
@@ -24,7 +23,7 @@ async function signupPatient(req, res) {
                           '${gender}', ${dateOfBirth}, '${bloodGroup}', ${addressId}, '${imageUrl}' )`
 
     try {
-        const result = await executeQuery(query)
+        await executeQuery(query)
 
         res.status(200).json({ success: true, message: "signed up" })
 

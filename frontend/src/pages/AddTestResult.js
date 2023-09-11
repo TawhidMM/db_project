@@ -1,12 +1,13 @@
 import React, {useEffect, useState} from "react";
 import axios from "axios";
+import {useNavigate} from "react-router-dom";
 
 export default function AddTestResult(){
     const [allTests, setAllTests] = useState([{}])
     const [selectedTest, setSelectedTest] = useState('')
     const [appointmentId, setAppointmentId] = useState('')
     const [testParams, setTestParams] = useState([])
-    //const [testParams, setTestParams] = useState([])
+    const navigate = useNavigate()
 
     useEffect(() => {
         (async () =>{
@@ -30,8 +31,6 @@ export default function AddTestResult(){
                                 ('/hospital/upload-result', {selectedTest})
 
 
-            //setTestParams(response.data)
-
             const result = response.data.map(p =>({
                 ...p,
                 RESULT: '',
@@ -41,6 +40,8 @@ export default function AddTestResult(){
             setTestParams(result)
 
             console.log(response.data, 'res')
+
+
 
         } catch (error) {
 
@@ -67,6 +68,7 @@ export default function AddTestResult(){
             const response = await axios.post
                 ('/hospital/upload-result/submit', {appointmentId, selectedTest, testParams})
 
+            navigate('../hospital/dashboard')
         } catch (error) {
 
             console.log('error submitting test result')

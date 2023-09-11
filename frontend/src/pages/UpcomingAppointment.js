@@ -9,7 +9,7 @@ import removeKey from "../util/RemoveKey"
 import formatString from "../util/StringFormat";
 
 const UpcomingAppointment = () => {
-    const [appointments, setAppointments] = useState(null)
+    const [appointments, setAppointments] = useState([])
     const [todayAppNum, setTodayAppNum] = useState(null)
     const [patientLinks, setPatientLinks] = useState([])
     const navigate = useNavigate()
@@ -52,7 +52,7 @@ const UpcomingAppointment = () => {
                 <DoctorHeader />
 
                 <center>
-                    {appointments ? (
+                    {appointments.length !==0 ? (
                         <div>
                             <h2>Upcoming Appointments</h2>
                             <br />
@@ -97,7 +97,7 @@ const UpcomingAppointment = () => {
                             </table>
                         </div>
                     ) : (
-                        <p>No data</p>
+                        <h5>No data</h5>
                     )}
                 </center>
             </div>
